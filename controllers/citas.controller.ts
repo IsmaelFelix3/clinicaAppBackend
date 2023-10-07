@@ -35,14 +35,23 @@ export const getCitas = async( req: Request, res: Response ) => {
 
 export const getTakenSlots = async ( req: Request, res: Response ) => {
 
-    let actualDate = new Date();
-    let userTimezoneOffset = actualDate.getTimezoneOffset() * 60000;
-    new Date(actualDate.getTime() - userTimezoneOffset);
+    
+    // const { body } = req;
+    // console.log(body)
+   console.log(req.params);
+   const { date } = req.params;
+   console.log(date)
+    // const { fechaSeleccionada } = body;
+    let selectedDate = new Date(date);
+    let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
+    let newDate = new Date(selectedDate.getTime() - userTimezoneOffset);
 
     const citas = await Cita.findAll({ raw: true});
+
+    console.log(newDate)
     
     let takenSlots = citas.filter( (element: any) => {
-        if( element.fecha_cita.toISOString().substring(0,10) == actualDate.toISOString().substring(0,10)){
+        if( element.fecha_cita.toISOString().substring(0,10) == newDate.toISOString().substring(0,10)){
             return element;
         }
     });

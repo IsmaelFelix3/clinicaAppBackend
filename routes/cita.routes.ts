@@ -3,7 +3,7 @@ import { deleteCita, getCita, getCitas, getTakenSlots, postCita, putCita } from 
 
 const router = Router();
 
-router.get('/getTakenSlots', getTakenSlots)
+router.get('/takenSlots/:date', getTakenSlots)
 router.get('/', getCitas);
 router.get('/:id', getCita);
 router.post('/', postCita);
