@@ -17,9 +17,6 @@ const Antecendentes_Personales_No_Patologicos = db.define('Antecedentes_Personal
     drogas: {
         type: DataTypes.BOOLEAN
     },
-    tipo_sanguineo: {
-        type: DataTypes.STRING
-    },
     diabetes: {
         type: DataTypes.STRING
     },

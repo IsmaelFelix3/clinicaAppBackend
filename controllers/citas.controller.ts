@@ -35,13 +35,9 @@ export const getCitas = async( req: Request, res: Response ) => {
 
 export const getTakenSlots = async ( req: Request, res: Response ) => {
 
-    
-    // const { body } = req;
-    // console.log(body)
    console.log(req.params);
    const { date } = req.params;
    console.log(date)
-    // const { fechaSeleccionada } = body;
     let selectedDate = new Date(date);
     let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
     let newDate = new Date(selectedDate.getTime() - userTimezoneOffset);
@@ -91,7 +87,6 @@ export const postCita = async( req: Request, res: Response ) => {
     const { body } = req;
 
     try {
-        //TODO: Checar fecha y hora
         const citaNueva = await Cita.findOne({ 
             where: { 
                 fecha_cita: {
@@ -102,15 +97,20 @@ export const postCita = async( req: Request, res: Response ) => {
 
         console.log(citaNueva)
 
-        if(citaNueva !== null){
+        if(citaNueva){ 
+            console.log('entro')
             return res.status(400).json({
                 msg: 'Ya existe una cita con el horario seleccionado, favor de seleccionar otro horario'
-            })
+            });
+            
         }
 
         const cita = Cita.build(body);
         await cita.save();
-        res.json( cita );
+        res.status(200).json({
+            msg: 'Guardado con exito',
+            cita
+        });
         
     } catch (error) {
         console.log(error)
