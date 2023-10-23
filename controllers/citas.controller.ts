@@ -6,7 +6,14 @@ import moment from "moment";
 
 export const getCitas = async( req: Request, res: Response ) => {
 
-    const citas = await Cita.findAll({ include: Paciente });
+    const { id } = req.params;
+
+
+    const citas = await Cita.findAll({ include: Paciente, 
+        where: {
+            id_medico: id
+        } 
+    });
 
     let citasActuales = citas.filter( cita => {
         let date = new Date(new Date().toISOString());
@@ -62,7 +69,7 @@ export const getTakenSlots = async ( req: Request, res: Response ) => {
     });
 }
 
-export const getCita = async( req: Request, res: Response ) => {
+export const getCitaById = async( req: Request, res: Response ) => {
 
     const { id } = req.params;
 
@@ -81,6 +88,7 @@ export const getCita = async( req: Request, res: Response ) => {
         });
     }
 }
+
 
 export const postCita = async( req: Request, res: Response ) => {
 

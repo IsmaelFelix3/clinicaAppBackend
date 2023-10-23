@@ -362,9 +362,9 @@ export const putExpediente = async( req: Request, res: Response ) => {
                 }
             });
         }
-        res.json( { 
-            msg: 'Expediente actualizado con exito.'
-        } );
+        res.json({
+            msg: 'Se actualizo el expediente medico.'
+        });
         
     } catch (error) {
         console.log(error)
