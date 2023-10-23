@@ -1,11 +1,27 @@
 import { Request, Response } from "express";
 import Paciente from '../models/paciente';
 import Expediente from "../models/expediente";
+import MedicoPaciente from "../models/MedicoPaciente";
 
 export const getPacientes = async( req: Request, res: Response ) => {
 
+    const { id } = req.params;
+
+    const medicoPaciente =  await MedicoPaciente.findAll({ where: {
+            id_medico: id,
+        }, 
+        raw: true
+    });
+
+    const pacientes = medicoPaciente.map( (element: any) => element.id_paciente );
+
     const paciente = await Paciente.findAll({
-        include: { model: Expediente }
+        include: { 
+                model: Expediente
+        },
+        where: {
+            id_paciente: pacientes
+        } 
     });
 
     res.json({

@@ -3,7 +3,7 @@ import { getPaciente, getPacientes, postPaciente, putPaciente, deletePaciente } 
 
 const router = Router();
 
-router.get('/', getPacientes);
+router.get('/:id', getPacientes);
 router.get('/:id', getPaciente);
 router.post('/', postPaciente);
 router.put('/:id', putPaciente);
