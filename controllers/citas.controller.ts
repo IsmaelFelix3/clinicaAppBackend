@@ -80,8 +80,10 @@ export const getLastAppoinment = async(req: Request, res: Response) => {
         });
     
         let sorted = citasDates.sort((a: any,b: any) => b.date - a.date);
+
+        console.log(sorted)
     
-        const idCita = sorted[0].id; 
+        const idCita = sorted[1].id; 
     
         const cita = await Cita.findByPk(idCita);
     
