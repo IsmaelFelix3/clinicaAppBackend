@@ -42,17 +42,13 @@ export const getCitas = async( req: Request, res: Response ) => {
 
 export const getTakenSlots = async ( req: Request, res: Response ) => {
 
-   console.log(req.params);
    const { date } = req.params;
-   console.log(date)
     let selectedDate = new Date(date);
     let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
     let newDate = new Date(selectedDate.getTime() - userTimezoneOffset);
 
     const citas = await Cita.findAll({ raw: true});
 
-    console.log(newDate)
-    
     let takenSlots = citas.filter( (element: any) => {
         if( element.fecha_cita.toISOString().substring(0,10) == newDate.toISOString().substring(0,10)){
             return element;
@@ -61,13 +57,55 @@ export const getTakenSlots = async ( req: Request, res: Response ) => {
 
     let arrayTakenSlots = takenSlots.map( (element: any) => element.fecha_cita);
 
-    console.log(arrayTakenSlots);
-
     res.json({
         msg: 'getTakenSlots',
         arrayTakenSlots
     });
 }
+
+export const getLastAppoinment = async(req: Request, res: Response) => {
+    const { idPaciente } = req.params;
+
+    try {
+
+        const citas: any[] = await Cita.findAll({ 
+            where: {
+                id_paciente: idPaciente
+            },
+            raw: true
+        });
+    
+        let citasDates = citas.map(element => {
+            return { id: element.id_cita, date: new Date(element.fecha_cita) }
+        });
+    
+        let sorted = citasDates.sort((a: any,b: any) => b.date - a.date);
+    
+        const idCita = sorted[0].id; 
+    
+        const cita = await Cita.findByPk(idCita);
+    
+        if( cita ){
+    
+            res.json({
+                msg: 'get Last Appoinment',
+                cita
+            });
+        }
+        else{
+            res.status(404).json({
+                msg: `No existe una cita con el id ${ idCita }`
+            });
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 
 export const getCitaById = async( req: Request, res: Response ) => {
 
