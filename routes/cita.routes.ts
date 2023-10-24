@@ -7,7 +7,7 @@ router.get('/appointmentsHistory/:idPaciente', getAppoinmentsHistory);
 router.get('/lastAppoinment/:idPaciente', getLastAppoinment);
 router.get('/takenSlots/:date', getTakenSlots);
 router.get('/:id', getCitas);
-router.get('/:id', getCitaById);
+router.get('/getAppoinmentById/:id', getCitaById);
 router.post('/', postCita);
 router.put('/:id', putCita);
 router.delete('/:id', deleteCita);
