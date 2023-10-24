@@ -108,6 +108,49 @@ export const getLastAppoinment = async(req: Request, res: Response) => {
     }
 }
 
+export const getAppoinmentsHistory = async ( req: Request, res: Response ) => {
+    const { idPaciente } = req.params;
+
+    try {
+
+        const citas: any[] = await Cita.findAll({ 
+            where: {
+                id_paciente: idPaciente
+            },
+            raw: true
+        });
+    
+        let citasDates = citas.map(element => {
+            return { id: element.id_cita, date: new Date(element.fecha_cita) }
+        });
+    
+        let sorted = citasDates.sort((a: any,b: any) => b.date - a.date);
+        const sortedIds = sorted.map( (element: any) => element.id );
+    
+        const history = await Cita.findAndCountAll({
+            where:{
+                id_cita: sortedIds
+            },
+            raw: true,
+            order: [
+                ['fecha_cita', 'DESC']
+            ]
+        });
+    
+        res.json({
+            history
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+    
+}
+
 
 export const getCitaById = async( req: Request, res: Response ) => {
 
