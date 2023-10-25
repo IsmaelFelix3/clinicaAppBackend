@@ -3,11 +3,11 @@ import Medico from '../models/medico';
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
-    const usuarios = await Medico.findAll();
+    const medicos = await Medico.findAll();
 
     res.json({
-        msg: 'getUsuarios',
-        usuarios
+        msg: 'getMedicos',
+        medicos
     });
 
 }
@@ -105,7 +105,7 @@ export const deleteMedico = async( req: Request, res: Response ) => {
         });
     }
 
-    await medico.update({ estado: false });
+    await medico.update({ estatus: 0 });
     // await usuario.destroy();
 
     res.json({

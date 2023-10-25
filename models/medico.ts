@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, TINYINT } from "sequelize";
 import db from "../db/connection";
 
 const Medico = db.define('Medico', {
@@ -39,6 +39,19 @@ const Medico = db.define('Medico', {
     },
     fecha_registro: {
         type: DataTypes.DATE
+    },
+    telefono: {
+        type: DataTypes.STRING
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    estatus: {
+        type: DataTypes.TINYINT
+    },
+    consultorio: {
+        type: DataTypes.TINYINT
     }
 });
 
