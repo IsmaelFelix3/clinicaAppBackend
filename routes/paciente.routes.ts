@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/allPatientsAdm/', getAllPacientesAdmin);
 router.get('/:id', getPacientes);
-router.get('patientById/:id', getPaciente);
+router.get('/patientById/:id', getPaciente);
 router.post('/', postPaciente);
 router.put('/:id', putPaciente);
 router.delete('/:id', deletePaciente);
