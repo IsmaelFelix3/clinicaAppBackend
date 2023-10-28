@@ -227,11 +227,11 @@ export const deletePaciente = async( req: Request, res: Response ) => {
         });
     }
 
-    await paciente.update({ estado: false });
+    await paciente.update({ estatus: false });
     // await usuario.destroy();
 
     res.json({
-        msg: 'Paciente Eliminado',
+        msg: 'Paciente Deshabilitado',
         id,
         paciente
     });
