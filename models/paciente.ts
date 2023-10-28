@@ -68,6 +68,12 @@ const Paciente = db.define('Paciente', {
     },
     fecha_registro: {
         type: DataTypes.DATE
+    },
+    password:{
+        type: DataTypes.STRING
+    },
+    estatus: {
+        type: DataTypes.TINYINT
     }
 });
 Paciente.hasOne( Expediente, 

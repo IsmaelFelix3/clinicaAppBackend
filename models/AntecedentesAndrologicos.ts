@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
 
-const Antecedentes_Gineco_Obstetrico = db.define('Antecedentes_Andrologicos', {
+const Antecedentes_Andrologicos = db.define('Antecedentes_Andrologicos', {
     id_antecedentes_andrologicos: {
         type: DataTypes.MEDIUMINT,
         autoIncrement: true,
@@ -30,4 +30,4 @@ const Antecedentes_Gineco_Obstetrico = db.define('Antecedentes_Andrologicos', {
     }
 });
 
-export default Antecedentes_Gineco_Obstetrico;
+export default Antecedentes_Andrologicos;

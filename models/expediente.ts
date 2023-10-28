@@ -13,19 +13,23 @@ const Expediente = db.define('Expediente', {
         primaryKey: true
     },
     id_paciente: {
-        type: DataTypes.MEDIUMINT
+        type: DataTypes.MEDIUMINT,
     },
     fecha_creacion_expediente: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: new Date().toISOString()
     },
     edad_paciente: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     alergias: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'No declaradas'
     },
     tipo_sanguineo: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'No declarado'
     },
     id_antecedentes_heredo_familiares: {
         type: DataTypes.MEDIUMINT
