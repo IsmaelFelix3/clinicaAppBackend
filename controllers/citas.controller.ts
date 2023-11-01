@@ -3,6 +3,7 @@ import Cita from '../models/cita';
 import Paciente from '../models/paciente';
 import { Op } from "sequelize";
 import moment from "moment";
+import Medico from "../models/medico";
 
 export const getCitas = async( req: Request, res: Response ) => {
 
@@ -19,7 +20,6 @@ export const getCitas = async( req: Request, res: Response ) => {
         let date = new Date(new Date().toISOString());
         let userTimezoneOffset = date.getTimezoneOffset() * 60000;
         let fechaActual = new Date(date.getTime() - userTimezoneOffset);
-        // console.log(fechaActual.toUTCString())
 
         let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
 
@@ -29,12 +29,43 @@ export const getCitas = async( req: Request, res: Response ) => {
            && fechaActual.getMonth() === new Date(fechaCita).getMonth()){
             return cita;
         }
-
-        // cita.dataValues.fecha_cita = new Date(cita.dataValues.fecha_cita).toISOString(); 
     });
-    console.log(citasActuales);
+    citasActuales = citasActuales.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
     res.json({
         msg: 'getCitas',
+        citasActuales
+    });
+
+}
+
+export const getCitasAdmin = async( req: Request, res: Response ) => {
+
+    console.log('entro')
+
+    const citas = await Cita.findAll({ 
+        include: [
+            { model: Paciente}, 
+            { model: Medico }
+        ]
+    });
+
+    let citasActuales = citas.filter( cita => {
+        let date = new Date(new Date().toISOString());
+        let userTimezoneOffset = date.getTimezoneOffset() * 60000;
+        let fechaActual = new Date(date.getTime() - userTimezoneOffset);
+
+        let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
+
+        console.log(fechaActual.toUTCString() + ' ---- ' + fechaCita);
+        if(new Date(fechaActual).getDate() === new Date(fechaCita).getDate() 
+            && fechaActual.getMonth() === new Date(fechaCita).getMonth()
+            && fechaActual.getFullYear() === new Date(fechaCita).getFullYear()){
+            return cita;
+        }
+    });
+    citasActuales = citasActuales.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
+    res.json({
+        msg: 'getCitasAdmin',
         citasActuales
     });
 

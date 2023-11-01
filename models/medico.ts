@@ -1,5 +1,6 @@
 import { DataTypes, TINYINT } from "sequelize";
 import db from "../db/connection";
+import Cita from "./cita";
 
 const Medico = db.define('Medico', {
     id_medico: {
@@ -54,5 +55,7 @@ const Medico = db.define('Medico', {
         type: DataTypes.TINYINT
     }
 });
+
+Cita.belongsTo(Medico, { foreignKey: 'id_medico' });
 
 export default Medico;
