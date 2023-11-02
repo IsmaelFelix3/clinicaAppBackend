@@ -11,6 +11,7 @@ router.get('/:id', getCitas);
 router.get('/getAppoinmentById/:id', getCitaById);
 router.post('/', postCita);
 router.put('/:id', putCita);
+router.put('/editDate/:id', putCita);
 router.delete('/:id', deleteCita);
 
 export default router;

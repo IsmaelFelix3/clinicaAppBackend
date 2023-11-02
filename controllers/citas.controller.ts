@@ -273,6 +273,53 @@ export const putCita = async( req: Request, res: Response ) => {
 
 }
 
+export const putCitaFecha = async( req: Request, res: Response ) => {
+
+    const { id } = req.params;
+    const { body } = req;
+    console.log(body,id,'parametros')
+
+    try {
+
+        const cita = await Cita.findByPk(id);
+
+        if(!cita){
+            return res.status(404).json({
+                msg: 'No existe una cita con el id ' + id
+            })
+        }
+
+        const citaNueva = await Cita.findOne({ 
+            where: { 
+                fecha_cita: {
+                    [Op.like]: moment(body.fecha_cita, "YYYY MM DD hh:mm:ss")
+                }  
+            }
+        });
+
+        console.log(citaNueva)
+
+        if(citaNueva){ 
+            console.log('entro')
+            return res.status(400).json({
+                msg: 'Ya existe una cita con el horario seleccionado, favor de seleccionar otro horario'
+            });
+            
+        }
+
+        await cita.update(body);
+
+        res.json( cita );
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+}
+
 export const deleteCita = async( req: Request, res: Response ) => {
 
     const { id } = req.params;
