@@ -17,16 +17,22 @@ export const getCitas = async( req: Request, res: Response ) => {
     });
 
     let citasActuales = citas.filter( cita => {
-        let date = new Date(new Date().toISOString());
+        let date = new Date();
         let userTimezoneOffset = date.getTimezoneOffset() * 60000;
         let fechaActual = new Date(date.getTime() - userTimezoneOffset);
 
         let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
+        // console.log(fechaActual,'Fecha actual')
+        // console.log(new Date(fechaActual),'Fecha actual Offset')
 
-        console.log(fechaActual.toUTCString() + ' ---- ' + fechaCita);
-        if(new Date(fechaActual).getDate() === new Date(fechaCita).getDate() 
-           && fechaActual.getMonth() === new Date(fechaCita).getMonth()
-           && fechaActual.getMonth() === new Date(fechaCita).getMonth()){
+        // console.log(new Date(fechaActual).getUTCHours())
+        // // console.log(fechaActual.toISOString() + ' ---- ' + fechaCita);
+        // console.log(fechaActual + ' ---- ' + fechaCita);
+        // console.log(new Date(fechaActual).getDate() + ' ---- ' + new Date(fechaCita).getDate());
+
+        if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
+           && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
+           && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
             return cita;
         }
     });
@@ -50,16 +56,22 @@ export const getCitasAdmin = async( req: Request, res: Response ) => {
     });
 
     let citasActuales = citas.filter( cita => {
-        let date = new Date(new Date().toISOString());
+        let date = new Date();
         let userTimezoneOffset = date.getTimezoneOffset() * 60000;
         let fechaActual = new Date(date.getTime() - userTimezoneOffset);
 
         let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
+        // console.log(fechaActual,'Fecha actual')
+        // console.log(new Date(fechaActual),'Fecha actual Offset')
 
-        console.log(fechaActual.toUTCString() + ' ---- ' + fechaCita);
-        if(new Date(fechaActual).getDate() === new Date(fechaCita).getDate() 
-            && fechaActual.getMonth() === new Date(fechaCita).getMonth()
-            && fechaActual.getFullYear() === new Date(fechaCita).getFullYear()){
+        // console.log(new Date(fechaActual).getUTCHours())
+        // // console.log(fechaActual.toISOString() + ' ---- ' + fechaCita);
+        // console.log(fechaActual + ' ---- ' + fechaCita);
+        // console.log(new Date(fechaActual).getDate() + ' ---- ' + new Date(fechaCita).getDate());
+
+        if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
+           && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
+           && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
             return cita;
         }
     });
