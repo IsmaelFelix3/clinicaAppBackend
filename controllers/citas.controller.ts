@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Cita from '../models/cita';
 import Paciente from '../models/paciente';
-import { Op } from "sequelize";
+import { Op, Sequelize, where } from "sequelize";
 import moment from "moment";
 import Medico from "../models/medico";
 
@@ -45,8 +45,6 @@ export const getCitas = async( req: Request, res: Response ) => {
 }
 
 export const getCitasAdmin = async( req: Request, res: Response ) => {
-
-    console.log('entro')
 
     const citas = await Cita.findAll({ 
         include: [
@@ -232,7 +230,6 @@ export const postCita = async( req: Request, res: Response ) => {
         console.log(citaNueva)
 
         if(citaNueva){ 
-            console.log('entro')
             return res.status(400).json({
                 msg: 'Ya existe una cita con el horario seleccionado, favor de seleccionar otro horario'
             });
@@ -312,7 +309,6 @@ export const putCitaFecha = async( req: Request, res: Response ) => {
         console.log(citaNueva)
 
         if(citaNueva){ 
-            console.log('entro')
             return res.status(400).json({
                 msg: 'Ya existe una cita con el horario seleccionado, favor de seleccionar otro horario'
             });
@@ -352,6 +348,90 @@ export const deleteCita = async( req: Request, res: Response ) => {
         id,
         cita
     });
+
+}
+
+export const appoinmentsByMedicAndDate = async(req: Request, res: Response) => {
+
+    const idMedico = req.body.idMedico;
+
+    try {
+        const citas = await Cita.findAll({ 
+            include: [
+                { model: Paciente}, 
+                { model: Medico, where: { id_medico: idMedico} },
+            ]
+        });
+    
+        let citasDelDia = citas.filter( cita => {
+            let date = new Date();
+            let userTimezoneOffset = date.getTimezoneOffset() * 60000;
+            let fechaActual = new Date(date.getTime() - userTimezoneOffset);
+    
+            let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
+    
+            if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
+               && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
+               && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
+                return cita;
+            }
+        });
+        citasDelDia = citasDelDia.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
+        res.json({
+            msg: 'getCitasAdmin',
+            citasDelDia
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+        
+    }
+}
+
+export const getAppoinmentsByDate = async(req: Request, res: Response) => {
+    const { date } = req.params;
+
+    try {
+        let selectedDate = new Date(date);
+
+        let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
+        let correctedDate = new Date(selectedDate.getTime() - userTimezoneOffset);
+    
+        const day = correctedDate.getUTCDate() + 1;
+        const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
+    
+    
+        const citas = await Cita.findAll({ 
+            include: [
+                { model: Paciente}, 
+                { model: Medico, },
+            ],
+            where: {
+                fecha_cita: {
+                    [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }]
+                }
+            },
+            order: [
+                ['fecha_cita', 'ASC']
+            ]
+        });
+    
+        res.json({
+            msg: 'Citas by Date',
+            citas
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+   
 
 }
 
