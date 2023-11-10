@@ -23,6 +23,7 @@ import otraEnfermedadRoutes from "../routes/otraEnfermedad.routes";
 import pisoRoutes from "../routes/piso.routes";
 import recetaRoutes from "../routes/receta.routes";
 import horarioRoutes from "../routes/horario.routes";
+import authRoutes from "../routes/auth.routes";
 
 import db from "../db/connection";
 
@@ -54,7 +55,8 @@ class Server {
         otrasEnfermedades: "/api/otrasEnfermedades",
         pisos: "/api/pisos",
         receta: "/api/recetas",
-        horarios: "/api/horarios"
+        horarios: "/api/horarios",
+        auth: "/api/auth"
     }
 
     constructor(){
@@ -113,6 +115,7 @@ class Server {
         this.app.use( this.apiPaths.pisos, pisoRoutes );
         this.app.use( this.apiPaths.receta, recetaRoutes );
         this.app.use( this.apiPaths.horarios, horarioRoutes );
+        this.app.use( this.apiPaths.auth, authRoutes );
     }
 
     listen(){

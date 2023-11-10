@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Medico from '../models/medico';
+import bcryptjs from "bcryptjs";
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
@@ -35,6 +36,7 @@ export const getMedico = async( req: Request, res: Response ) => {
 export const postMedico = async( req: Request, res: Response ) => {
 
     const { body } = req;
+    const { password } = body;
 
     try {
 
@@ -47,8 +49,11 @@ export const postMedico = async( req: Request, res: Response ) => {
         if(existeEmail){
             return res.status(400).json({
                 msg: 'Ya existe un usuario con el email ' + body.correo
-            })
+            });
         }
+
+        const salt = bcryptjs.genSaltSync();
+        body.password = bcryptjs.hashSync( password, salt );
 
         const medico = Medico.build(body);
         await medico.save();

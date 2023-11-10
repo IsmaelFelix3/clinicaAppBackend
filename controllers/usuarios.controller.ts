@@ -38,15 +38,15 @@ export const postUsuario = async( req: Request, res: Response ) => {
 
     try {
 
-        const existeEmail = await Usuario.findOne({ 
+        const existeCorreo = await Usuario.findOne({ 
             where: { 
-                email: body.email 
+                correo: body.correo 
             }
         });
 
-        if(existeEmail){
+        if(existeCorreo){
             return res.status(400).json({
-                msg: 'Ya existe un usuario con el email ' + body.email
+                msg: 'Ya existe un usuario con el email ' + body.correo
             })
         }
 
