@@ -4,16 +4,12 @@ import Usuario from '../models/usuario';
 import Medico from '../models/medico';
 import Administrador from '../models/administrador';
 import Paciente from '../models/paciente';
+import { JwtAdapter } from '../helpers/index';
 const { generarJWT } = require("../helpers/generar-jwt");
 
 export const login = async(req: Request, res: Response) => {
 
-    console.log('entro log in')
-
     const { correo, password } = req.body;
-
-    console.log(correo, 'correo')
-    console.log(password, 'password')
 
     const usuario = await Usuario.findOne({
         where:{
@@ -49,9 +45,6 @@ export const login = async(req: Request, res: Response) => {
             break;
     }
 
-    console.log(userLogin, 'usuario log in')
-
-
     const estatus = userLogin?.getDataValue('estatus');
     const passwordUser = userLogin?.getDataValue('password');
     const uid = userLogin?.getDataValue('id_usuario');
@@ -83,12 +76,18 @@ export const login = async(req: Request, res: Response) => {
             })
         }
 
-        // const token = await generarJWT( uid );
+        const token = await JwtAdapter.generateToken({ uid });
+
+        if(!token){
+            return res.status(500).json({
+                msg: 'Error en la generacion de token'
+            })
+        }
 
         res.json({
             msg: 'Auth User',
             userLogin,
-            // token
+            token
         })
         
     } catch (error) {

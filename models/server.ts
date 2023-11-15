@@ -26,6 +26,7 @@ import horarioRoutes from "../routes/horario.routes";
 import authRoutes from "../routes/auth.routes";
 
 import db from "../db/connection";
+import { envs } from "../config/envs";
 
 class Server {
 

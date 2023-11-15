@@ -188,10 +188,7 @@ export const getAppoinmentsHistory = async ( req: Request, res: Response ) => {
             msg: 'Hable con el administrador'
         });
     }
-
-    
 }
-
 
 export const getCitaById = async( req: Request, res: Response ) => {
 
@@ -352,34 +349,52 @@ export const deleteCita = async( req: Request, res: Response ) => {
 }
 
 export const appoinmentsByMedicAndDate = async(req: Request, res: Response) => {
+    
+    const { idMedico, fecha } = req.body;
 
-    const idMedico = req.body.idMedico;
+    let selectedDate = new Date(fecha);
+    let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
+    let correctedDate = new Date(selectedDate.getTime() - userTimezoneOffset);
+
+    const day = correctedDate.getUTCDate() + 1;
+    const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
 
     try {
+        
         const citas = await Cita.findAll({ 
             include: [
                 { model: Paciente}, 
-                { model: Medico, where: { id_medico: idMedico} },
+                { model: Medico, },
+            ],
+            where: {
+                fecha_cita: {
+                    [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }],
+                },
+                id_medico: idMedico
+            },
+            order: [
+                ['fecha_cita', 'ASC']
             ]
         });
+
+    //     let citasDelDia = citas.filter( cita => {
+    //         let date = new Date();
+    //         let userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    //         let fechaActual = new Date(date.getTime() - userTimezoneOffset);
     
-        let citasDelDia = citas.filter( cita => {
-            let date = new Date();
-            let userTimezoneOffset = date.getTimezoneOffset() * 60000;
-            let fechaActual = new Date(date.getTime() - userTimezoneOffset);
+    //         let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
     
-            let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
-    
-            if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
-               && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
-               && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
-                return cita;
-            }
-        });
-        citasDelDia = citasDelDia.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
+    //         if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
+    //            && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
+    //            && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
+    //             return cita;
+    //         }
+    //     });
+    //     citasDelDia = citasDelDia.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
+
         res.json({
-            msg: 'getCitasAdmin',
-            citasDelDia
+            msg: 'getCitasByMedicAndDate',
+            citas
         });
         
     } catch (error) {
@@ -430,8 +445,5 @@ export const getAppoinmentsByDate = async(req: Request, res: Response) => {
             msg: 'Hable con el administrador'
         });
     }
-
-   
-
 }
 
