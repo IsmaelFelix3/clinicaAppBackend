@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Medico from '../models/medico';
-// import bcryptjs from "bcryptjs";
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
@@ -11,6 +10,32 @@ export const getMedicos = async( req: Request, res: Response ) => {
         medicos
     });
 
+}
+
+export const getMedicoByEmail = async (req: Request, res: Response ) => {
+    console.log(req.body, 'PAram body')
+
+    const { correo } = req.body;
+    try {
+        const medico = await Medico.findOne({ 
+            where: {
+                correo
+            }
+        });
+
+        console.log(medico)
+    
+        res.json( {
+            msg: 'Medico By Email',
+            medico
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 export const getMedico = async( req: Request, res: Response ) => {

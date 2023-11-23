@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { deleteMedico, getMedico, getMedicos, postMedico, putMedico } from '../controllers/medicos.controller';
+import { deleteMedico, getMedico, getMedicoByEmail, getMedicos, postMedico, putMedico } from '../controllers/medicos.controller';
 
 const router = Router();
 
+router.post('/getMedicoByEmail', getMedicoByEmail);
 router.get('/', getMedicos);
 router.get('/:id', getMedico);
 router.post('/', postMedico);

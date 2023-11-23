@@ -17,33 +17,6 @@ export const login = async(req: Request, res: Response) => {
         }
     });
 
-    // const rolUsuario = usuarioLogin?.dataValues.rol;
-
-    // let userLogin;
-    // switch (rolUsuario) {
-    //     case 'Medico':
-    //         userLogin = await Medico.findOne({ 
-    //                 where:{
-    //                     correo 
-    //                 } 
-    //             });
-    //         break;
-    //     case 'Admin':
-    //         userLogin = await Administrador.findOne({ 
-    //             where:{
-    //                 correo 
-    //             } 
-    //         });
-    //         break;
-    //     case 'Paciente':
-    //         userLogin = await Paciente.findOne({ 
-    //             where:{
-    //                 correo 
-    //             } 
-    //         });
-    //         break;
-    // }
-
     const estatus = userLogin?.getDataValue('estatus');
     const passwordUser = userLogin?.getDataValue('password');
     const uid = userLogin?.getDataValue('id_usuario');
@@ -91,6 +64,7 @@ export const login = async(req: Request, res: Response) => {
 
    
 }
+
 
 export const revalidarToken = async( req: any, res: Response ) => {
 
