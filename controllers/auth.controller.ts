@@ -11,39 +11,38 @@ export const login = async(req: Request, res: Response) => {
 
     const { correo, password } = req.body;
 
-    const usuario = await Usuario.findOne({
+    const userLogin = await Usuario.findOne({
         where:{
             correo
         }
     });
 
-    const rolUsuario = usuario?.dataValues.rol;
+    // const rolUsuario = usuarioLogin?.dataValues.rol;
 
-    let userLogin;
-
-    switch (rolUsuario) {
-        case 'Medico':
-            userLogin = await Medico.findOne({ 
-                    where:{
-                        correo 
-                    } 
-                });
-            break;
-        case 'Admin':
-            userLogin = await Administrador.findOne({ 
-                where:{
-                    correo 
-                } 
-            });
-            break;
-        case 'Paciente':
-            userLogin = await Paciente.findOne({ 
-                where:{
-                    correo 
-                } 
-            });
-            break;
-    }
+    // let userLogin;
+    // switch (rolUsuario) {
+    //     case 'Medico':
+    //         userLogin = await Medico.findOne({ 
+    //                 where:{
+    //                     correo 
+    //                 } 
+    //             });
+    //         break;
+    //     case 'Admin':
+    //         userLogin = await Administrador.findOne({ 
+    //             where:{
+    //                 correo 
+    //             } 
+    //         });
+    //         break;
+    //     case 'Paciente':
+    //         userLogin = await Paciente.findOne({ 
+    //             where:{
+    //                 correo 
+    //             } 
+    //         });
+    //         break;
+    // }
 
     const estatus = userLogin?.getDataValue('estatus');
     const passwordUser = userLogin?.getDataValue('password');
@@ -61,16 +60,9 @@ export const login = async(req: Request, res: Response) => {
             });
         }
 
-        // const validPassword = bcryptjs.compareSync( password, passwordMedico );
-        console.log('password == passwordMedico', password, passwordUser)
-        const validPassword = password == passwordUser ? true : false;
-
-        // if( !validPassword ){
-        //     return res.status(400).json({
-        //         msg: 'Usuario / Password no son correctos - password'
-        //     })
-        // }
-        if( validPassword == false ){
+        const validPassword = bcryptjs.compareSync( password, passwordUser );
+       
+        if( !validPassword ){
             return res.status(400).json({
                 msg: 'Usuario / Password no son correctos - password'
             })
@@ -102,27 +94,17 @@ export const login = async(req: Request, res: Response) => {
 
 export const revalidarToken = async( req: any, res: Response ) => {
 
-    const  uid  = req.token.id;
+    const uid = req.token.uid;
+    console.log(uid, 'revalidar token')
 
     const usuarioDB = await Usuario.findByPk(uid);
 
-    const dbUsuarioId = usuarioDB?.getDataValue('idUsuario');
-    const nombre = usuarioDB?.getDataValue('nombre');
-    const correo = usuarioDB?.getDataValue('correo');
-    const idRol = usuarioDB?.getDataValue('idRol');
-    const apellidos = usuarioDB?.getDataValue('apellidos');
-    const estado = usuarioDB?.getDataValue('estado');
-
-    const token = await generarJWT(uid, dbUsuarioId);
+    const token = await JwtAdapter.generateToken({uid});
 
     return res.status(200).json({
-        msg: true,
+        msg: 'Token Revalidate',
         uid,
-        nombre,
-        correo,
-        idRol,
-        apellidos,
-        estado,
+        usuarioDB,
         token
     })
 }

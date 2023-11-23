@@ -13,6 +13,8 @@ router.post('/login', [
     // validarCampos
 ], login);
 
-// router.get('/renew',validarJWT.validarJWT,revalidarToken)
+router.get('/renew',validarJWT.validarJWT,revalidarToken);
+// router.get('/renew',revalidarToken);
+
 
 export default router;

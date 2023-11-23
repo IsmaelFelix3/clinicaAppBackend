@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Medico from '../models/medico';
-import bcryptjs from "bcryptjs";
+// import bcryptjs from "bcryptjs";
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
@@ -52,8 +52,8 @@ export const postMedico = async( req: Request, res: Response ) => {
             });
         }
 
-        const salt = bcryptjs.genSaltSync();
-        body.password = bcryptjs.hashSync( password, salt );
+        // const salt = bcryptjs.genSaltSync();
+        // body.password = bcryptjs.hashSync( password, salt );
 
         const medico = Medico.build(body);
         await medico.save();

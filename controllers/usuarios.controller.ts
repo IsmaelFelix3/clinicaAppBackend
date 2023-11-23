@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Usuario from '../models/usuario';
+import bcryptjs from "bcryptjs";
 
 export const getUsuarios = async( req: Request, res: Response ) => {
 
@@ -35,6 +36,7 @@ export const getUsuario = async( req: Request, res: Response ) => {
 export const postUsuario = async( req: Request, res: Response ) => {
 
     const { body } = req;
+    const { password } = body;
 
     try {
 
@@ -49,6 +51,9 @@ export const postUsuario = async( req: Request, res: Response ) => {
                 msg: 'Ya existe un usuario con el email ' + body.correo
             })
         }
+
+        const salt = bcryptjs.genSaltSync();
+        body.password = bcryptjs.hashSync( password, salt );
 
         const usuario = Usuario.build(body);
         await usuario.save();
