@@ -14,15 +14,22 @@ import Antecedentes_Quirurgicos from '../models/AntecedentesQuirurgicos';
 
 export const getPacientes = async( req: Request, res: Response ) => {
 
+
     const { id } = req.params;
 
-    const medicoPaciente =  await MedicoPaciente.findAll({ where: {
+    console.log('Paciente----')
+    console.log(id)
+
+
+    const medicoPaciente =  await MedicoPaciente.findAndCountAll({ where: {
             id_medico: id,
         }, 
         raw: true
     });
 
-    const pacientes = medicoPaciente.map( (element: any) => element.id_paciente );
+    console.log(medicoPaciente)
+
+    const pacientes = medicoPaciente.rows.map( (element: any) => element.id_paciente );
 
     const paciente = await Paciente.findAll({
         include: { 
@@ -35,7 +42,8 @@ export const getPacientes = async( req: Request, res: Response ) => {
 
     res.json({
         msg: 'getPacientes',
-        paciente
+        paciente,
+        numPacientes: medicoPaciente.count
     });
 
 }

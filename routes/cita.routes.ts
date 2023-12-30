@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { deleteCita, getCitaById, getCitas, getLastAppoinment, getTakenSlots, postCita, putCita, getAppoinmentsHistory, getCitasAdmin, appoinmentsByMedicAndDate, getAppoinmentsByDate } from '../controllers/citas.controller';
+import { deleteCita, getCitaById, getCitas, 
+         getLastAppoinment, getTakenSlots, postCita, 
+         putCita, getAppoinmentsHistory, getCitasAdmin, 
+         appoinmentsByMedicAndDate, getAppoinmentsByDate, getAppoinmentsMonth } 
+from '../controllers/citas.controller';
 
 const router = Router();
 
+router.get('/appoinmentsByMonth/:id', getAppoinmentsMonth);
 router.get('/appoinmentsByDate/:date', getAppoinmentsByDate);
 router.get('/appointmentsHistory/:idPaciente', getAppoinmentsHistory);
 router.post('/appoinmentsByMedicAndDate/', appoinmentsByMedicAndDate);

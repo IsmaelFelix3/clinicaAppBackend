@@ -9,39 +9,43 @@ export const getCitas = async( req: Request, res: Response ) => {
 
     const { id } = req.params;
 
+    let date = new Date();
+    let userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    let fechaActual = new Date(date.getTime() - userTimezoneOffset);
+    fechaActual = new Date (fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate(),0-7)
 
-    const citas = await Cita.findAll({ include: Paciente, 
-        where: {
-            id_medico: id
-        } 
-    });
+    const day = fechaActual.getUTCDate() + 1;
+    const dayPlus = new Date(fechaActual.getUTCFullYear(),fechaActual.getUTCMonth(), day,0-7);
 
-    let citasActuales = citas.filter( cita => {
-        let date = new Date();
-        let userTimezoneOffset = date.getTimezoneOffset() * 60000;
-        let fechaActual = new Date(date.getTime() - userTimezoneOffset);
+    console.log(fechaActual)
+    console.log(dayPlus)
 
-        let fechaCita = new Date(cita.dataValues.fecha_cita).toISOString();
-        // console.log(fechaActual,'Fecha actual')
-        // console.log(new Date(fechaActual),'Fecha actual Offset')
+    try {
 
-        // console.log(new Date(fechaActual).getUTCHours())
-        // // console.log(fechaActual.toISOString() + ' ---- ' + fechaCita);
-        // console.log(fechaActual + ' ---- ' + fechaCita);
-        // console.log(new Date(fechaActual).getDate() + ' ---- ' + new Date(fechaCita).getDate());
+        const citas = await Cita.findAndCountAll({ 
+            include: Paciente, 
+            where: {
+                fecha_cita: {
+                    [Op.and]: [{ [Op.gte]: fechaActual },{ [Op.lt]: dayPlus }],
+                },
+                id_medico: id
+            },
+            order: [
+                ['fecha_cita', 'ASC']
+            ]
+        });
 
-        if(new Date(fechaActual).getUTCDate() === new Date(fechaCita).getUTCDate() 
-           && new Date(fechaActual).getUTCMonth() === new Date(fechaCita).getUTCMonth()
-           && new Date(fechaActual).getUTCFullYear() === new Date(fechaCita).getUTCFullYear()){
-            return cita;
-        }
-    });
-    citasActuales = citasActuales.sort((a: any,b: any) => a.fecha_cita - b.fecha_cita);
-    res.json({
-        msg: 'getCitas',
-        citasActuales
-    });
-
+        res.json({
+            msg: 'getCitas',
+            citas: citas.rows,
+            numCitas: citas.count
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 export const getCitasAdmin = async( req: Request, res: Response ) => {
@@ -445,5 +449,37 @@ export const getAppoinmentsByDate = async(req: Request, res: Response) => {
             msg: 'Hable con el administrador'
         });
     }
+}
+
+export const getAppoinmentsMonth = async(req: Request, res: Response) => {
+
+    const { id } = req.params;
+
+    let date = new Date();
+    const month = date.getUTCMonth()
+    const firstDate = new Date(date.getFullYear(),month,1,0-7);
+    const lastDate = new Date(date.getFullYear(),month + 1,0,0-7);
+
+    try {
+        const citas = await Cita.count({ 
+            where: {
+                fecha_cita: {
+                    [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
+                },
+                id_medico: id
+            }
+        });
+
+        res.json({
+            msg: 'getCitasByMonth',
+            citas
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
 }
 
