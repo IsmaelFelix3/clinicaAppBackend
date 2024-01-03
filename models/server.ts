@@ -27,6 +27,7 @@ import authRoutes from "../routes/auth.routes";
 import adminRoutes from "../routes/administrador.routes";
 import catalogoMotivoConsulta from "../routes/catalogoMotivoConsulta.routes";
 import procedimientosRoutes from "../routes/procedimientos.routes";
+import quirofanosRoutes from "../routes/quirofanos.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -63,7 +64,8 @@ class Server {
         auth: "/api/auth",
         admin: "/api/admin",
         catalogoMotivoConsulta: "/api/motivoConsulta",
-        procedimientos: "/api/procedimientos"
+        procedimientos: "/api/procedimientos",
+        quirofanos: "/api/quirofanos"
     }
 
     constructor(){
@@ -126,6 +128,7 @@ class Server {
         this.app.use( this.apiPaths.admin, adminRoutes );
         this.app.use( this.apiPaths.catalogoMotivoConsulta, catalogoMotivoConsulta );
         this.app.use( this.apiPaths.procedimientos, procedimientosRoutes );
+        this.app.use( this.apiPaths.quirofanos, quirofanosRoutes );
     }
 
     listen(){
