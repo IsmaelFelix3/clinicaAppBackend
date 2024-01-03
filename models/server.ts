@@ -25,6 +25,8 @@ import recetaRoutes from "../routes/receta.routes";
 import horarioRoutes from "../routes/horario.routes";
 import authRoutes from "../routes/auth.routes";
 import adminRoutes from "../routes/administrador.routes";
+import catalogoMotivoConsulta from "../routes/catalogoMotivoConsulta.routes";
+import procedimientosRoutes from "../routes/procedimientos.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -59,7 +61,9 @@ class Server {
         receta: "/api/recetas",
         horarios: "/api/horarios",
         auth: "/api/auth",
-        admin: "/api/admin"
+        admin: "/api/admin",
+        catalogoMotivoConsulta: "/api/motivoConsulta",
+        procedimientos: "/api/procedimientos"
     }
 
     constructor(){
@@ -120,6 +124,8 @@ class Server {
         this.app.use( this.apiPaths.horarios, horarioRoutes );
         this.app.use( this.apiPaths.auth, authRoutes );
         this.app.use( this.apiPaths.admin, adminRoutes );
+        this.app.use( this.apiPaths.catalogoMotivoConsulta, catalogoMotivoConsulta );
+        this.app.use( this.apiPaths.procedimientos, procedimientosRoutes );
     }
 
     listen(){
@@ -127,7 +133,6 @@ class Server {
             console.log('Servidor corriendo en puerto ' + this.port);
         } )
     }
-
 }
 
 // Exportacion por defecto
