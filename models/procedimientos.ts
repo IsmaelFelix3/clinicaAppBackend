@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Quirofano from "./quirofano";
 
 const Procedimientos = db.define('Procedimientos', {
     id_reserva: {
@@ -21,4 +22,7 @@ const Procedimientos = db.define('Procedimientos', {
     }
 }
 );
+
+Procedimientos.belongsTo( Quirofano, { foreignKey: 'id_quirofano'} );
+
 export default Procedimientos;

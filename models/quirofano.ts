@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Procedimientos from "../models/procedimientos";
 
 const Quirofano = db.define('Quirofanos', {
     id_quirofano: {
@@ -15,4 +16,5 @@ const Quirofano = db.define('Quirofanos', {
     }
 }
 );
+
 export default Quirofano;

@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import Procedimientos from '../models/procedimientos';
 import { Op, Sequelize, where } from "sequelize";
 import moment from "moment";
+import Paciente from '../models/paciente';
+import Quirofano from "../models/quirofano";
 
 export const getProcedimientos = async (req: Request, res: Response ) => {
     try {
@@ -153,18 +155,50 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
             'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento'
         ]
     });
-
-    // let takenSlots = procedimientos.filter( (element: any) => {
-    //     if( element.fecha_procedimiento.toISOString().substring(0,10) == correctedDate.toISOString().substring(0,10)){
-    //         return element;
-    //     }
-    // });
-
-    // let arrayTakenSlots = takenSlots.map( (element: any) => element.fecha_procedimiento);
-
+    
     res.json({
         msg: 'getTakenSlots',
         procedimientos
-        // arrayTakenSlots
+
+    });
+ }
+
+ export const getCurrentProceduresDoctor = async ( req: Request, res: Response ) => {
+
+    const { idMedico } = req.params;
+    console.log(idMedico)
+
+    let today = new Date();
+    let correctedDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(),0-7,0,0);
+
+    console.log(correctedDate)
+
+    const day = correctedDate.getUTCDate() + 1;
+    const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
+
+    const procedimientos = await Procedimientos.findAndCountAll({
+        include: [
+            { model: Paciente, attributes: ['nombre','apellidos'] },
+            { model: Quirofano, attributes: ['nombre_quirofano'] }
+        ],
+        
+        where: {
+            fecha_procedimiento: {
+                [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }],
+            },
+            id_medico: idMedico
+        },
+        order: [
+            ['fecha_procedimiento', 'ASC']
+        ],
+        attributes: [
+            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento'
+        ]
+    });
+    
+    res.json({
+        msg: 'getCurrentProceduresDoctor',
+        procedimientos
+
     });
  }

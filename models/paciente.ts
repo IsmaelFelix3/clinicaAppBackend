@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import db from "../db/connection";
 import Cita from "./cita";
 import Expediente from "./expediente";
+import Procedimientos from './procedimientos';
 
 const Paciente = db.define('Paciente', {
     id_paciente: {
@@ -83,5 +84,6 @@ Paciente.hasOne( Expediente,
     }
 );
 Cita.belongsTo(Paciente, { foreignKey: 'id_paciente' });
+Procedimientos.belongsTo(Paciente, { foreignKey: 'id_paciente' });
 
 export default Paciente;

@@ -12,7 +12,7 @@ export const getCitas = async( req: Request, res: Response ) => {
     let date = new Date();
     let userTimezoneOffset = date.getTimezoneOffset() * 60000;
     let fechaActual = new Date(date.getTime() - userTimezoneOffset);
-    fechaActual = new Date (fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate(),0-7)
+    fechaActual = new Date (fechaActual.getUTCFullYear(), fechaActual.getUTCMonth(), fechaActual.getUTCDate(),0-7)
 
     const day = fechaActual.getUTCDate() + 1;
     const dayPlus = new Date(fechaActual.getUTCFullYear(),fechaActual.getUTCMonth(), day,0-7);
