@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getQuirofanos } from "../controllers/quirofanos.controller";
+import { getHorariosQuirofanos, getQuirofanos } from "../controllers/quirofanos.controller";
 
 const router = Router();
 
 router.get('/getOperatingRooms', getQuirofanos);
+router.get('/getSchedulesOperatingRooms/:quirofano', getHorariosQuirofanos);
 
 export default router;

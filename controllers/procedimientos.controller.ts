@@ -126,3 +126,45 @@ export const deleteProcedimiento = async( req: Request, res: Response ) => {
     });
 
 }
+
+export const getProceduresByDay = async ( req: Request, res: Response ) => {
+
+    const { date, idQuirofano } = req.params;
+
+    let selectedDate = new Date(date);
+    let userTimezoneOffset = selectedDate.getTimezoneOffset() * 60000;
+    let correctedDate = new Date(selectedDate.getTime() - userTimezoneOffset);
+
+    const day = correctedDate.getUTCDate() + 1;
+    const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
+
+    const procedimientos = await Procedimientos.findAll({ 
+        raw: true,
+        where: {
+            fecha_procedimiento: {
+                [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }],
+            },
+            id_quirofano: idQuirofano
+        },
+        order: [
+            ['fecha_procedimiento', 'ASC']
+        ],
+        attributes: [
+            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento'
+        ]
+    });
+
+    // let takenSlots = procedimientos.filter( (element: any) => {
+    //     if( element.fecha_procedimiento.toISOString().substring(0,10) == correctedDate.toISOString().substring(0,10)){
+    //         return element;
+    //     }
+    // });
+
+    // let arrayTakenSlots = takenSlots.map( (element: any) => element.fecha_procedimiento);
+
+    res.json({
+        msg: 'getTakenSlots',
+        procedimientos
+        // arrayTakenSlots
+    });
+ }
