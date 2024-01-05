@@ -158,8 +158,8 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
     
     res.json({
         msg: 'getProceduresByDay',
-        procedimientos
-
+        procedimientos,
+        row: procedimientos.length
     });
  }
 
@@ -240,3 +240,35 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
         procedimientos
     });
  }
+
+ export const getProceduresMonthDoctor = async(req: Request, res: Response) => {
+
+    const { idMedico } = req.params;
+
+    let date = new Date();
+    const month = date.getUTCMonth()
+    const firstDate = new Date(date.getFullYear(),month,1,0-7);
+    const lastDate = new Date(date.getFullYear(),month + 1,0,0-7);
+
+    try {
+        const procedimientos = await Procedimientos.count({ 
+            where: {
+                fecha_procedimiento: {
+                    [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
+                },
+                id_medico: idMedico
+            }
+        });
+
+        res.json({
+            msg: 'getProceduresMonthDoctor',
+            procedimientos
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+}
