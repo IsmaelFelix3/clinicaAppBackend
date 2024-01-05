@@ -169,17 +169,18 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
     console.log(idMedico)
 
     let today = new Date();
-    let correctedDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(),0-7,0,0);
+    let userTimezoneOffset = today.getTimezoneOffset() * 60000;
+    let correctedDate = new Date(today.getTime() - userTimezoneOffset);
+    correctedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(),0-7,0,0);
 
-    console.log(correctedDate)
 
     const day = correctedDate.getUTCDate() + 1;
     const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
 
     const procedimientos = await Procedimientos.findAndCountAll({
         include: [
-            { model: Paciente, attributes: ['nombre','apellidos'] },
-            { model: Quirofano, attributes: ['nombre_quirofano'] }
+            { model: Paciente, attributes: ['nombre','apellidos', 'id_paciente'] },
+            { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] }
         ],
         
         where: {
@@ -199,6 +200,5 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
     res.json({
         msg: 'getCurrentProceduresDoctor',
         procedimientos
-
     });
  }
