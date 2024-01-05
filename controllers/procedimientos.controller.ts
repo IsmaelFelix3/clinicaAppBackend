@@ -157,7 +157,7 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
     });
     
     res.json({
-        msg: 'getTakenSlots',
+        msg: 'getProceduresByDay',
         procedimientos
 
     });
@@ -199,6 +199,44 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
     
     res.json({
         msg: 'getCurrentProceduresDoctor',
+        procedimientos
+    });
+ }
+
+ export const getProceduresCalendarDoctor = async ( req: Request, res: Response ) => {
+
+    const { idMedico, date } = req.params;
+  
+    let today = new Date(date);
+    let userTimezoneOffset = today.getTimezoneOffset() * 60000;
+    let correctedDate = new Date(today.getTime() - userTimezoneOffset);
+    correctedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(),0-7,0,0);
+
+    const day = correctedDate.getUTCDate() + 1;
+    const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
+
+    const procedimientos = await Procedimientos.findAndCountAll({
+        include: [
+            { model: Paciente, attributes: ['nombre','apellidos', 'id_paciente'] },
+            { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] }
+        ],
+        
+        where: {
+            fecha_procedimiento: {
+                [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }],
+            },
+            id_medico: idMedico
+        },
+        order: [
+            ['fecha_procedimiento', 'ASC']
+        ],
+        attributes: [
+            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento'
+        ]
+    });
+    
+    res.json({
+        msg: 'getProceduresCalendarDoctor',
         procedimientos
     });
  }

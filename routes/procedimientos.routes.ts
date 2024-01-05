@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteProcedimiento, getCurrentProceduresDoctor, getProcedimientos, getProceduresByDay, postProcedimiento, putProcedimiento } from "../controllers/procedimientos.controller";
+import { deleteProcedimiento, getCurrentProceduresDoctor, getProcedimientos, getProceduresByDay, getProceduresCalendarDoctor, postProcedimiento, putProcedimiento } from "../controllers/procedimientos.controller";
 
 const router = Router();
 
@@ -9,6 +9,7 @@ router.put('/editProcedure/:id', putProcedimiento);
 router.delete('/deleteProcedure/:id', deleteProcedimiento);
 router.get('/getProceduresByDay/:date&:idQuirofano', getProceduresByDay);
 router.get('/getCurrentProceduresDoctor/:idMedico', getCurrentProceduresDoctor);
+router.get('/getProceduresCalendarDoctor/:date&:idMedico', getProceduresCalendarDoctor)
 
 
 export default router;
