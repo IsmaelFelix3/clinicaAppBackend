@@ -483,3 +483,44 @@ export const getAppoinmentsMonth = async(req: Request, res: Response) => {
 
 }
 
+export const getAppoinmentsByDateAndType = async(req: Request, res: Response) => {
+
+    const { idMedico,startDate,endDate,type } = req.body;
+    console.log(idMedico,startDate,endDate,type)
+
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+    const startMonth = start.getUTCMonth();
+    const endMonth = end.getUTCMonth();
+    const startDay = start.getUTCDate()
+    const endDay = end.getUTCDate()
+
+    const firstDate = new Date(start.getFullYear(),startMonth,startDay,0-7);
+    const lastDate = new Date(end.getFullYear(),endMonth,endDay + 1,0-7);
+
+    try {
+        const citas = await Cita.findAndCountAll({ 
+            attributes: ['motivo_consulta', 'estatus','fecha_cita'],
+            include: { model: Paciente, attributes: ['nombre', 'apellidos']},
+            where: {
+                fecha_cita: {
+                    [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
+                },
+                motivo_consulta: type,
+                id_medico: idMedico
+            }
+        });
+
+        res.json({
+            msg: 'getCitasByDateAndType',
+            citas
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+}
+

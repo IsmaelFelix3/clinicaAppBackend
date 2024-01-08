@@ -2,7 +2,7 @@ import { Router } from "express";
 import { deleteCita, getCitaById, getCitas, 
          getLastAppoinment, getTakenSlots, postCita, 
          putCita, getAppoinmentsHistory, getCitasAdmin, 
-         appoinmentsByMedicAndDate, getAppoinmentsByDate, getAppoinmentsMonth } 
+         appoinmentsByMedicAndDate, getAppoinmentsByDate, getAppoinmentsMonth, getAppoinmentsByDateAndType } 
 from '../controllers/citas.controller';
 
 const router = Router();
@@ -20,5 +20,6 @@ router.post('/', postCita);
 router.put('/:id', putCita);
 router.put('/editDate/:id', putCita);
 router.delete('/:id', deleteCita);
+router.post('/appoinmentsByDateAndType/', getAppoinmentsByDateAndType)
 
 export default router;
