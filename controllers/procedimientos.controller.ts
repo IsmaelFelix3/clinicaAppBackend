@@ -152,9 +152,7 @@ export const deleteProcedimiento = async( req: Request, res: Response ) => {
     await procedimiento.destroy();
 
     res.json({
-        msg: 'Procedimiento Eliminado',
-        id,
-        procedimiento
+        msg: `Procedimiento eliminado con exito`
     });
 
 }
