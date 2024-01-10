@@ -13,25 +13,22 @@ export class JwtAdapter {
     
                     jwt.sign( payload, JWT_SEED, { expiresIn: duration }, 
                     ( err, token ) => {
-        
                         if(err){
                             console.log(err)
                             return resolve(null);
-
                         }
-            
                         return resolve(token);
                     });
-                
             });
     }
 
     static validateToken( token: string){
 
         return new Promise( (resolve) => {
-            jwt.verify( token, JWT_SEED, (err, decoded) => {
-                if(err) return resolve(null)
-
+            jwt.verify( token, JWT_SEED, {}, (err, decoded) => {
+                if(err) {
+                    return resolve(false)
+                }
                 resolve( decoded )
             });
         });

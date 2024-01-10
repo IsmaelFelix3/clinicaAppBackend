@@ -12,6 +12,7 @@ export const login = async(req: Request, res: Response) => {
     const { correo, password } = req.body;
 
     const userLogin = await Usuario.findOne({
+        attributes: ['correo','estatus','rol', 'password', 'id_usuario'],
         where:{
             correo
         }
@@ -40,7 +41,7 @@ export const login = async(req: Request, res: Response) => {
                 msg: 'Usuario / Password no son correctos - password'
             })
         }
-
+        console.log(uid)
         const token = await JwtAdapter.generateToken({ uid });
 
         if(!token){
@@ -49,9 +50,15 @@ export const login = async(req: Request, res: Response) => {
             })
         }
 
+        const obj = {
+            correo: userLogin?.getDataValue('correo'),
+            rol: userLogin?.getDataValue('rol'),
+            estatus: userLogin?.getDataValue('estatus')
+        }
+
         res.json({
             msg: 'Auth User',
-            userLogin,
+            userLogin: obj,
             token
         })
         
@@ -68,17 +75,36 @@ export const login = async(req: Request, res: Response) => {
 
 export const revalidarToken = async( req: any, res: Response ) => {
 
-    const uid = req.token.uid;
-    console.log(uid, 'revalidar token')
+    try {
+        const token = req.header('Authorization');
 
-    const usuarioDB = await Usuario.findByPk(uid);
+        const result: any = await JwtAdapter.validateToken(token.split(' ')[1]);
+    
+        if(result == false){
+            return res.status(500).json({
+                msg: 'Error al validar el token'
+            })
+        }
+        const { uid } = result;
+    
+        const userLogin = await Usuario.findByPk(uid, {
+            attributes: ['rol','estatus','correo']
+        });
+    
+        const newToken = await JwtAdapter.generateToken({uid});
+    
+        return res.status(200).json({
+            msg: 'Token Revalidate',
+            userLogin,
+            newToken
+        })
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: 'Hable con el administrador'
+        })
+    }
 
-    const token = await JwtAdapter.generateToken({uid});
-
-    return res.status(200).json({
-        msg: 'Token Revalidate',
-        uid,
-        usuarioDB,
-        token
-    })
+   
 }

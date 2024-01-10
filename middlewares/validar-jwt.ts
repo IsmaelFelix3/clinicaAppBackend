@@ -12,6 +12,8 @@ export interface CustomRequest extends Request {
 
 const validarJWT = async(req: any, res: Response, next: NextFunction) => {
 
+    console.log('entrooooo Validar JWT')
+
     const token = req.header('x-token');
 
     if(!token){
@@ -20,8 +22,12 @@ const validarJWT = async(req: any, res: Response, next: NextFunction) => {
         })
     }
 
+    console.log(token, JWT_SEED)
+
     try {
-        const decoded = jwt.verify( token, JWT_SEED );
+        console.log('llego')
+        const decoded = jwt.verify( token, JWT_SEED,  (err: any, result: any) => { return res.status(200).send({ err: err, result: result, }); });
+        console.log('llego aqui')
         
         // (req as CustomRequest).token = decoded;
         
@@ -49,6 +55,7 @@ const validarJWT = async(req: any, res: Response, next: NextFunction) => {
             })
         }
         req.usuario = usuario;
+        console.log('todo bieneenenenenenene')
         next();
 
     } catch (error) {
