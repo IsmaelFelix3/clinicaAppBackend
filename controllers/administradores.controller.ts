@@ -12,8 +12,6 @@ export const getAdminByEmail = async (req: Request, res: Response ) => {
             }
         });
 
-        
-    
         res.json( {
             msg: 'Admin By Email',
             admin

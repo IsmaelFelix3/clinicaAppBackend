@@ -4,6 +4,7 @@ import Paciente from '../models/paciente';
 import { Op, Sequelize, where } from "sequelize";
 import moment from "moment";
 import Medico from "../models/medico";
+import Medico_Paciente from "../models/MedicoPaciente";
 
 export const getCitas = async( req: Request, res: Response ) => {
 
@@ -218,6 +219,26 @@ export const getCitaById = async( req: Request, res: Response ) => {
 export const postCita = async( req: Request, res: Response ) => {
 
     const { body } = req;
+    const { id_paciente, id_medico } = body;
+
+    let comentarios = '';
+
+
+    const revision = await Medico_Paciente.findOne({
+        attributes: ['id_medico', 'id_paciente'],
+        where: {
+            [Op.and]: [ {id_paciente}, {id_medico} ]
+        }
+    })
+
+    console.log(revision)
+
+    if(revision == null){
+        const agregar = Medico_Paciente.build({id_medico,id_paciente});
+        await agregar.save();
+        comentarios = 'Se creo relacion medico paciente';
+    }
+
 
     try {
         const citaNueva = await Cita.findOne({ 
@@ -241,7 +262,8 @@ export const postCita = async( req: Request, res: Response ) => {
         await cita.save();
         res.status(200).json({
             msg: 'Guardado con exito',
-            cita
+            cita,
+            comentarios
         });
         
     } catch (error) {
