@@ -6,7 +6,7 @@ export const getInsumos = async (req: Request, res: Response ) => {
     try {
 
         const insumos = await Insumo.findAndCountAll({
-            attributes: ['id_insumo', 'codigo', 'descripcion', 'estado', 'createdAt']
+            attributes: ['id_insumo', 'codigo', 'descripcion', 'estado', 'createdAt', 'facturaCompra','perecedero', 'numeroLote', 'fechaCaducidad', 'cantidadMinima', 'cantidadMaxima', 'cantidadActual' ]
         });
     
         res.json( {
@@ -25,7 +25,7 @@ export const getInsumos = async (req: Request, res: Response ) => {
 export const getInsumoByCodigo = async (req: Request, res: Response ) => {
     const { codigo } = req.params;
     try {
-        const insumo = await Insumo.findOne({ 
+        const insumo = await Insumo.findOne({
             where: {
                 codigo
             }

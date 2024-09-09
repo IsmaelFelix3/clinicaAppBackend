@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { deleteProcedimiento, getCurrentProceduresDoctor, 
+    getProcedimiento, 
     getProcedimientos, getProceduresByDay, getProceduresCalendarAdmin, 
     getProceduresCalendarDoctor, getProceduresMonthDoctor, postProcedimiento, 
-    putProcedimiento 
+    putProcedimiento , getAllProceduresCurrentDay,
+    getProceduresMonth
 } from "../controllers/procedimientos.controller";
 
 const router = Router();
@@ -16,6 +18,11 @@ router.get('/getCurrentProceduresDoctor/:idMedico', getCurrentProceduresDoctor);
 router.get('/getProceduresCalendarDoctor/:date&:idMedico', getProceduresCalendarDoctor);
 router.get('/getProceduresMonthDoctor/:idMedico', getProceduresMonthDoctor);
 router.get('/getProceduresCalendarAdmin/:date&:idMedico', getProceduresCalendarAdmin);
+router.get('/getProcedure/:id', getProcedimiento);
+router.get('/getAllProceduresCurrentDay/', getAllProceduresCurrentDay);
+router.get('/getProceduresMonth/', getProceduresMonth);
+
+
 
 
 export default router;

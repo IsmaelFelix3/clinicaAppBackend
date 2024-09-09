@@ -13,6 +13,9 @@ const Quirofano = db.define('Quirofanos', {
     },
     tiempo_uso: {
         type: DataTypes.TEXT
+    },
+    color: {
+        type: DataTypes.TEXT
     }
 }
 );

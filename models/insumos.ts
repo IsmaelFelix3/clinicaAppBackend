@@ -15,6 +15,27 @@ const Insumo = db.define('Insumos', {
     },
     estado: {
         type: DataTypes.BOOLEAN
+    },
+    facturaCompra: {
+        type: DataTypes.STRING
+    },
+    perecedero: {
+        type: DataTypes.BOOLEAN
+    },
+    numeroLote: {
+        type: DataTypes.STRING
+    },
+    fechaCaducidad: {
+        type: DataTypes.DATE
+    },
+    cantidadMinima: {
+        type: DataTypes.NUMBER
+    },
+    cantidadMaxima: {
+        type: DataTypes.NUMBER
+    },
+    cantidadActual: {
+        type: DataTypes.NUMBER
     }
 },
 {

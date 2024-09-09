@@ -29,6 +29,8 @@ import catalogoMotivoConsulta from "../routes/catalogoMotivoConsulta.routes";
 import procedimientosRoutes from "../routes/procedimientos.routes";
 import quirofanosRoutes from "../routes/quirofanos.routes";
 import insumosRoutes from "../routes/insumo.routes";
+import tipoProcedimientosRoutes from "../routes/tipoProcedimiento.routes";
+import catalogoProcedimientosRoutes from "../routes/catalogoProcedimientos.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -67,7 +69,9 @@ class Server {
         catalogoMotivoConsulta: "/api/motivoConsulta",
         procedimientos: "/api/procedimientos",
         quirofanos: "/api/quirofanos",
-        insumos: "/api/insumos"
+        insumos: "/api/insumos",
+        tipoProcedimientos: "/api/tipoProcedimiento",
+        catalogoProcedimientos: "/api/catalogoProcedimiento"
     }
 
     constructor(){
@@ -104,7 +108,7 @@ class Server {
         this.app.use( express.static('public') );
     }
 
-    // aqui podriamos definir cualquier cantidad de rutas que sean necesarias en nuestra apliacion
+    // aqui podriamos definir cualquier cantidad de rutas que sean necesarias en nuestra aplicacion
     routes(){
         this.app.use( this.apiPaths.usuarios, userRoutes );
         this.app.use( this.apiPaths.medicos, medicoRoutes );
@@ -132,6 +136,8 @@ class Server {
         this.app.use( this.apiPaths.procedimientos, procedimientosRoutes );
         this.app.use( this.apiPaths.quirofanos, quirofanosRoutes );
         this.app.use( this.apiPaths.insumos, insumosRoutes );
+        this.app.use( this.apiPaths.tipoProcedimientos, tipoProcedimientosRoutes );
+        this.app.use( this.apiPaths.catalogoProcedimientos, catalogoProcedimientosRoutes )
     }
 
     listen(){
