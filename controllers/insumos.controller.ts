@@ -1,12 +1,18 @@
 
 import { Request, Response } from "express";
 import Insumo from "../models/insumos";
+import HistorialInsumosProcedimientos from "../models/historialInsumosProcedimiento";
+import { Op, Sequelize } from "sequelize";
 
 export const getInsumos = async (req: Request, res: Response ) => {
     try {
 
         const insumos = await Insumo.findAndCountAll({
-            attributes: ['id_insumo', 'codigo', 'descripcion', 'estado', 'createdAt', 'facturaCompra','perecedero', 'numeroLote', 'fechaCaducidad', 'cantidadMinima', 'cantidadMaxima', 'cantidadActual' ]
+            attributes: ['id_insumo', 'sku', 'descripcion', 'estado', 'numero_factura_compra', 'numero_lote', 'fecha_caducidad', 'cantidas_minima',
+                         'cantidad_maxima', 'cantidad_actual', 'id_laboratorio', 'dosis', 'fecha_factura', 'codigo_barras', 'id_proveedor', 'nombre_comercial',
+                         'modelo', 'id_clasificacion', 'nombre_producto', 'id_categoria', 'id_marca', 'moneda', 'id_unidad_medida', 'precio_venta', 'costo',
+                         'codigo_sat', 'id_tasa_impuesto', 'id_informacion_farmaceutica', 'fecha_alta'
+                     ]
         });
     
         res.json( {
@@ -77,6 +83,68 @@ export const postInsumo = async (req: Request, res: Response ) => {
         });
     }
 }
+
+
+export const postItemsMasive = async (req: Request, res: Response ) => {
+    const body = req.body;
+    // console.log(body)
+    const result = JSON.parse(body);
+    const procedures = result.map( (item: any) => item.group )
+    console.log(procedures)
+    try {
+
+        const proceduresDb = await HistorialInsumosProcedimientos.findAll({
+
+            attributes: [[Sequelize.literal('DISTINCT historial_insumos_procedimiento.procedimiento'), `procedimiento`]],
+            where: {
+                procedimiento: procedures
+            },
+        });
+
+        const existingProcedures = proceduresDb.map(item => item.dataValues['procedimiento']);
+  
+        const newProcedures = procedures.filter((x: any) => !existingProcedures.includes(x));
+        const existing = procedures.filter((x: any) => existingProcedures.includes(x));
+
+        if(newProcedures.length === 0){
+            res.json({
+                msg: 'El archivo contiene procedimientos ya existentes, favor de revisar el folio de los procedimientos del archivo.',
+                newProcedures,
+                existing
+            });
+            return;
+        }
+
+        console.log(newProcedures)
+
+        for (let i = 0; i < newProcedures.length; i++) {
+            const element = newProcedures[i];
+
+            for (let index = 0; index < result.length; index++) {
+                if(result[index].group === element){
+                    const insumoNuevo = await HistorialInsumosProcedimientos.bulkCreate(
+                        result[index].values,{
+                        validate: true
+                    });
+                }
+            }
+            
+        }
+
+        res.status(200).json({
+            msg: 'Guardado con exito',
+            newProcedures,
+            existing
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 
 export const putInsumo = async (req: Request, res: Response ) => {
     console.log(req.body)

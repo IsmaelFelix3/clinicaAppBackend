@@ -2,6 +2,7 @@
 // y todo en el archivo va a ser conocido como express
 import express, { Application } from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
 
 import userRoutes from "../routes/usuario.routes";
 import medicoRoutes from "../routes/medico.routes";
@@ -31,6 +32,13 @@ import quirofanosRoutes from "../routes/quirofanos.routes";
 import insumosRoutes from "../routes/insumo.routes";
 import tipoProcedimientosRoutes from "../routes/tipoProcedimiento.routes";
 import catalogoProcedimientosRoutes from "../routes/catalogoProcedimientos.routes";
+import catalogoLaboratoriosRoutes from "../routes/catalogoLaboratorio.routes";
+import catalogoProveedoresRoutes from "../routes/catalogoProveedores.routes";
+import catalogoClasifiacionesRoutes from "../routes/clasificaciones.routes";
+import catalogoCategoriasRoutes from "../routes/catalogoCategoria.routes";
+import catalogoMarcasRoutes from "../routes/catalogoMarcas.routes";
+import catalogoUnidadMedidasRoutes from "../routes/catalogoUnidadMedida.routes";
+import catalogoTasaImpuestosRoutes from "../routes/catalogoTasaImpuestos.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -71,7 +79,15 @@ class Server {
         quirofanos: "/api/quirofanos",
         insumos: "/api/insumos",
         tipoProcedimientos: "/api/tipoProcedimiento",
-        catalogoProcedimientos: "/api/catalogoProcedimiento"
+        catalogoProcedimientos: "/api/catalogoProcedimiento",
+        catalogoLaboratorios: "/api/catalogoLabs",
+        catalogoProveedores: "/api/catalogoProveedores",
+        catalogoClasificaciones: "/api/catalogoClasifiaciones",
+        catalogoCategorias: "/api/catalogoCategorias",
+        catalogoMarca: "/api/catalogoMarca",
+        catalogoUnidadMedida: "/api/catalogoUnidadMedida",
+        catalogoTasaImpuestos: "/api/catalogoTasaImpuesto",
+
     }
 
     constructor(){
@@ -138,6 +154,14 @@ class Server {
         this.app.use( this.apiPaths.insumos, insumosRoutes );
         this.app.use( this.apiPaths.tipoProcedimientos, tipoProcedimientosRoutes );
         this.app.use( this.apiPaths.catalogoProcedimientos, catalogoProcedimientosRoutes )
+        this.app.use( this.apiPaths.catalogoLaboratorios, catalogoLaboratoriosRoutes )
+        this.app.use( this.apiPaths.catalogoProveedores, catalogoProveedoresRoutes )
+        this.app.use( this.apiPaths.catalogoClasificaciones, catalogoClasifiacionesRoutes )
+        this.app.use( this.apiPaths.catalogoCategorias, catalogoCategoriasRoutes )
+        this.app.use( this.apiPaths.catalogoMarca, catalogoMarcasRoutes )
+        this.app.use( this.apiPaths.catalogoUnidadMedida, catalogoUnidadMedidasRoutes )
+        this.app.use( this.apiPaths.catalogoTasaImpuestos, catalogoTasaImpuestosRoutes )
+
     }
 
     listen(){

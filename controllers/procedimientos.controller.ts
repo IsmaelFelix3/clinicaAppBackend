@@ -174,6 +174,9 @@ export const putProcedimiento = async (req: Request, res: Response ) => {
 
         const verificarHorario = await Procedimientos.findOne({ 
             where: { 
+                id_reserva: {
+                    [Op.ne]: id
+                },
                 estatus: {
                     [Op.ne]: 'Cancelado'
                 },
