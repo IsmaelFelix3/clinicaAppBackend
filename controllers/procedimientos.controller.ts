@@ -73,7 +73,7 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'id_procedimiento', 'estatus'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'id_procedimiento', 'estatus'
         ]
     });
     
@@ -269,7 +269,7 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
         ]
     });
     
@@ -310,7 +310,7 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
         ]
     });
     
@@ -349,7 +349,7 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'estatus', 'id_procedimiento'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'estatus', 'id_procedimiento'
         ]
     });
     
@@ -418,7 +418,7 @@ export const getProceduresMonth = async(req: Request, res: Response) => {
                 ['fecha_procedimiento_inicio', 'ASC']
             ],
             attributes: [
-                'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'id_procedimiento'
+                'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'id_procedimiento'
             ]
         });
 
@@ -465,7 +465,7 @@ export const getProceduresCalendarAdmin = async ( req: Request, res: Response ) 
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'id_procedimiento', 'estatus'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'id_procedimiento', 'estatus'
         ]
     });
     
@@ -502,7 +502,7 @@ export const getProceduresCalendarAdmin = async ( req: Request, res: Response ) 
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio'
         ],
     });
     

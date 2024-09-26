@@ -5,6 +5,10 @@ import Tipo_Procedimientos from './tipoProcedimiento';
 import Catalogo_Procedimientos from "./CatalogoProcedimiento";
 
 const Procedimientos = db.define('Procedimientos', {
+    serie: {
+        type: DataTypes.STRING,
+        defaultValue: 'PC-PRM'
+    },
     id_reserva: {
         type: DataTypes.INTEGER,
         primaryKey: true,

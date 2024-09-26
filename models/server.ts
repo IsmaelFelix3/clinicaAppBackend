@@ -39,6 +39,7 @@ import catalogoCategoriasRoutes from "../routes/catalogoCategoria.routes";
 import catalogoMarcasRoutes from "../routes/catalogoMarcas.routes";
 import catalogoUnidadMedidasRoutes from "../routes/catalogoUnidadMedida.routes";
 import catalogoTasaImpuestosRoutes from "../routes/catalogoTasaImpuestos.routes";
+import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProcedimiento.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -87,6 +88,7 @@ class Server {
         catalogoMarca: "/api/catalogoMarca",
         catalogoUnidadMedida: "/api/catalogoUnidadMedida",
         catalogoTasaImpuestos: "/api/catalogoTasaImpuesto",
+        historialInsumosProcedimiento: '/api/hip'
 
     }
 
@@ -153,14 +155,15 @@ class Server {
         this.app.use( this.apiPaths.quirofanos, quirofanosRoutes );
         this.app.use( this.apiPaths.insumos, insumosRoutes );
         this.app.use( this.apiPaths.tipoProcedimientos, tipoProcedimientosRoutes );
-        this.app.use( this.apiPaths.catalogoProcedimientos, catalogoProcedimientosRoutes )
-        this.app.use( this.apiPaths.catalogoLaboratorios, catalogoLaboratoriosRoutes )
+        this.app.use( this.apiPaths.catalogoProcedimientos, catalogoProcedimientosRoutes );
+        this.app.use( this.apiPaths.catalogoLaboratorios, catalogoLaboratoriosRoutes );
         this.app.use( this.apiPaths.catalogoProveedores, catalogoProveedoresRoutes )
-        this.app.use( this.apiPaths.catalogoClasificaciones, catalogoClasifiacionesRoutes )
-        this.app.use( this.apiPaths.catalogoCategorias, catalogoCategoriasRoutes )
-        this.app.use( this.apiPaths.catalogoMarca, catalogoMarcasRoutes )
-        this.app.use( this.apiPaths.catalogoUnidadMedida, catalogoUnidadMedidasRoutes )
-        this.app.use( this.apiPaths.catalogoTasaImpuestos, catalogoTasaImpuestosRoutes )
+        this.app.use( this.apiPaths.catalogoClasificaciones, catalogoClasifiacionesRoutes );
+        this.app.use( this.apiPaths.catalogoCategorias, catalogoCategoriasRoutes );
+        this.app.use( this.apiPaths.catalogoMarca, catalogoMarcasRoutes );
+        this.app.use( this.apiPaths.catalogoUnidadMedida, catalogoUnidadMedidasRoutes );
+        this.app.use( this.apiPaths.catalogoTasaImpuestos, catalogoTasaImpuestosRoutes );
+        this.app.use( this.apiPaths.historialInsumosProcedimiento, historialInsumosProcedimientoRoutes );
 
     }
 

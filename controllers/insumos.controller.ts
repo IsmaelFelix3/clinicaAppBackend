@@ -8,7 +8,7 @@ export const getInsumos = async (req: Request, res: Response ) => {
     try {
 
         const insumos = await Insumo.findAndCountAll({
-            attributes: ['id_insumo', 'sku', 'descripcion', 'estado', 'numero_factura_compra', 'numero_lote', 'fecha_caducidad', 'cantidas_minima',
+            attributes: ['id_insumo', 'sku', 'descripcion', 'estado', 'numero_factura_compra', 'numero_lote', 'fecha_caducidad', 'cantidad_minima',
                          'cantidad_maxima', 'cantidad_actual', 'id_laboratorio', 'dosis', 'fecha_factura', 'codigo_barras', 'id_proveedor', 'nombre_comercial',
                          'modelo', 'id_clasificacion', 'nombre_producto', 'id_categoria', 'id_marca', 'moneda', 'id_unidad_medida', 'precio_venta', 'costo',
                          'codigo_sat', 'id_tasa_impuesto', 'id_informacion_farmaceutica', 'fecha_alta'
