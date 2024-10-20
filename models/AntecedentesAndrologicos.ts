@@ -8,25 +8,32 @@ const Antecedentes_Andrologicos = db.define('Antecedentes_Andrologicos', {
         primaryKey: true
     },
     circuncision: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     criptorquidia: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     vsa: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     numero_parejas: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     ets: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     transtorno_ereccion: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     andropausia: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

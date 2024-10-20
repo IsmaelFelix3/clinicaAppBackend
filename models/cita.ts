@@ -15,7 +15,8 @@ const Cita = db.define('Citas', {
         type: DataTypes.MEDIUMINT
     },
     estatus: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'En espera'
     },
     fecha_cita: {
         type: DataTypes.DATE
@@ -30,25 +31,31 @@ const Cita = db.define('Citas', {
         type: DataTypes.TEXT
     },
     pulso: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: '0'
     },
     presion_arterial: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: '0'
     },
     temperatura: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: '0'
     },
     frecuencia_cardiaca: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: '0'
     },
     frecuencia_respiratoria: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: '0'
     },
     peso_paciente: {
         type: DataTypes.STRING
     },
     inspeccion_general: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: '0'
     },
     diagnostico: {
         type: DataTypes.TEXT

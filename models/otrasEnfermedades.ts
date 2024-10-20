@@ -8,7 +8,8 @@ const Otras_Enfermedades = db.define('Otras_Enfermedades', {
         primaryKey: true
     },
     descripcion_otras_enfermedades: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

@@ -5,7 +5,7 @@ import Medico from '../models/medico';
 import Administrador from '../models/administrador';
 import Paciente from '../models/paciente';
 import { JwtAdapter } from '../helpers/index';
-const { generarJWT } = require("../helpers/generar-jwt");
+// const { generarJWT } = require("../helpers/generar-jwt");
 
 export const login = async(req: Request, res: Response) => {
 

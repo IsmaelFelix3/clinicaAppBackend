@@ -7,6 +7,7 @@ import Medico from "../models/medico";
 import Medico_Paciente from "../models/MedicoPaciente";
 
 export const getCitas = async( req: Request, res: Response ) => {
+    console.log('es aqui')
 
     const { id } = req.params;
 
@@ -110,39 +111,39 @@ export const getTakenSlots = async ( req: Request, res: Response ) => {
 }
 
 export const getLastAppoinment = async(req: Request, res: Response) => {
-    const { idPaciente } = req.params;
+    console.log(req.query)
+    const { idPaciente, idMedico } = req.query;
 
     try {
 
         const citas: any[] = await Cita.findAll({ 
             where: {
-                id_paciente: idPaciente
+                [Op.and]: [{id_paciente: idPaciente}, {id_medico: idMedico}]
             },
+            order: [['fecha_cita','ASC']],
             raw: true
         });
-    
-        let citasDates = citas.map(element => {
-            return { id: element.id_cita, date: new Date(element.fecha_cita) }
-        });
-    
-        let sorted = citasDates.sort((a: any,b: any) => b.date - a.date);
 
-        console.log(sorted)
-    
-        const idCita = sorted[1].id; 
-    
-        const cita = await Cita.findByPk(idCita);
-    
-        if( cita ){
-    
+        console.log(citas);
+
+        if(citas.length === 1){
             res.json({
-                msg: 'get Last Appoinment',
-                cita
+                        msg: 'No se encontro cita previa'
+                    });
+            return;
+        }
+    
+        const lastAppointment = citas[citas.length - 2]; 
+        
+        if( lastAppointment ){
+            res.json({
+                msg: 'get Last Appointment',
+                cita: lastAppointment
             });
         }
         else{
             res.status(404).json({
-                msg: `No existe una cita con el id ${ idCita }`
+                msg: `No existe una cita con el id ${ lastAppointment.id_cita }`
             });
         }
         
@@ -155,36 +156,19 @@ export const getLastAppoinment = async(req: Request, res: Response) => {
 }
 
 export const getAppoinmentsHistory = async ( req: Request, res: Response ) => {
-    const { idPaciente } = req.params;
+    const { idPaciente, idMedico } = req.query;
 
     try {
-
-        const citas: any[] = await Cita.findAll({ 
+        const citas = await Cita.findAndCountAll({ 
             where: {
-                id_paciente: idPaciente
+                [Op.and]: [{id_paciente: idPaciente}, {id_medico: idMedico}]
             },
+            order: [['fecha_cita','DESC']],
             raw: true
         });
-    
-        let citasDates = citas.map(element => {
-            return { id: element.id_cita, date: new Date(element.fecha_cita) }
-        });
-    
-        let sorted = citasDates.sort((a: any,b: any) => b.date - a.date);
-        const sortedIds = sorted.map( (element: any) => element.id );
-    
-        const history = await Cita.findAndCountAll({
-            where:{
-                id_cita: sortedIds
-            },
-            raw: true,
-            order: [
-                ['fecha_cita', 'DESC']
-            ]
-        });
-    
+
         res.json({
-            history
+            history: citas
         });
         
     } catch (error) {

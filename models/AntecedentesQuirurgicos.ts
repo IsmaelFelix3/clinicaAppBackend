@@ -8,7 +8,8 @@ const Antecedentes_Quirurgicos = db.define('Antecedentes_Quirurgicos', {
         primaryKey: true
     },
     descripcion_antecedente_quirurgico: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

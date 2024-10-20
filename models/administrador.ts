@@ -14,13 +14,16 @@ const Administrador = db.define('Administradores', {
         type: DataTypes.STRING
     },
     rol: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Admin'
     },
     password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Admin123'
     },
     estatus: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 1
     },
     correo: {
         type: DataTypes.STRING,

@@ -11,6 +11,8 @@ import Hospitalizacion from '../models/hospitalizacion';
 import Inmunizacion from '../models/inmunizacion';
 import Otras_Enfermedades from "../models/otrasEnfermedades";
 import Antecedentes_Quirurgicos from '../models/AntecedentesQuirurgicos';
+import Medico from "../models/medico";
+import { Op } from "sequelize";
 
 export const getPacientes = async( req: Request, res: Response ) => {
 
@@ -182,6 +184,32 @@ export const postPaciente = async( req: Request, res: Response ) => {
                 msg: 'Hable con el administrador, no se encontro usuario'
             });
         }
+
+        const infoMedico = await Medico.findOne({ 
+            where: { 
+                correo: body.medico[0] 
+            }
+        });
+        console.log(infoMedico?.dataValues.id_medico)
+        const idMedico = infoMedico?.dataValues.id_medico;
+
+
+        const relacionMedicoPaciente = await MedicoPaciente.findOne({ 
+            where: { 
+                [Op.and]: [ { id_medico: idMedico }, { id_paciente: idPaciente } ]
+            }
+        });
+
+        console.log(relacionMedicoPaciente)
+
+        if(relacionMedicoPaciente == null){
+            let medicoPaciente: any = MedicoPaciente.build({
+                id_medico: idMedico,
+                id_paciente: idPaciente
+            });
+            await medicoPaciente.save();
+        }
+
 
         res.json({ paciente, expediente , antecedentePP , antecedentePNP });
         

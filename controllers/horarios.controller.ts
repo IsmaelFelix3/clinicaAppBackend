@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Horario from "../models/horario";
+import Horario from "../models/Horario";
 
 export const getHorarios = async( req: Request, res: Response ) => {
 

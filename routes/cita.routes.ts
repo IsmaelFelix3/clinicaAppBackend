@@ -9,9 +9,9 @@ const router = Router();
 
 router.get('/appoinmentsByMonth/:id', getAppoinmentsMonth);
 router.get('/appoinmentsByDate/:date', getAppoinmentsByDate);
-router.get('/appointmentsHistory/:idPaciente', getAppoinmentsHistory);
+router.get('/appointmentsHistory/', getAppoinmentsHistory);
 router.post('/appoinmentsByMedicAndDate/', appoinmentsByMedicAndDate);
-router.get('/lastAppoinment/:idPaciente', getLastAppoinment);
+router.get('/lastAppoinment/', getLastAppoinment);
 router.get('/takenSlots/:date', getTakenSlots);
 router.get('/citasAdmin/', getCitasAdmin);
 router.get('/:id', getCitas);

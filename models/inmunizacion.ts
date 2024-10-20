@@ -8,7 +8,8 @@ const Inmunizacion = db.define('Inmunizaciones', {
         primaryKey: true
     },
     descripcion_inmunizacion: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

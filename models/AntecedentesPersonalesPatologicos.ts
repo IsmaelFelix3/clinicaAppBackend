@@ -11,10 +11,12 @@ const Antecedentes_Personales_Patologicos = db.define('Antecedentes_Personales_P
         primaryKey: true
     },
     enfermedades_infantiles: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     secuelas: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     id_hospitalizacion: {
         type: DataTypes.MEDIUMINT

@@ -37,7 +37,8 @@ const Medico = db.define('Medico', {
         type: DataTypes.BOOLEAN
     },
     rol: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Doctor'
     },
     fecha_registro: {
         type: DataTypes.DATE
@@ -48,9 +49,11 @@ const Medico = db.define('Medico', {
     password: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'Doctor123'
     },
     estatus: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 1
     },
     consultorio: {
         type: DataTypes.TINYINT

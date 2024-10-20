@@ -9,22 +9,27 @@ const Antecendentes_Personales_No_Patologicos = db.define('Antecedentes_Personal
         primaryKey: true
     },
     fumador: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     alcohol: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     drogas: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     diabetes: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     id_inmunizacion: {
         type: DataTypes.MEDIUMINT
     },
     otros: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

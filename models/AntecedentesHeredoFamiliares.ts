@@ -8,34 +8,44 @@ const Antecedentes_Heredo_Familiares = db.define('Antecedentes_Heredo_Familiares
         primaryKey: true
     },
     diabetes: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     hipertension_arterial: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     cancer: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     tipo_cancer: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     familiar_cancer: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     cardiopatas: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     familiar_cardiopatas: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     nefropatas: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     familiar_nefropatas: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     descripcion_malformaciones: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     }
 });
 

@@ -8,46 +8,59 @@ const Antecedentes_Gineco_Obstetrico = db.define('Antecedentes_Gineco_Obstetrico
         primaryKey: true
     },
     menarca: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     ciclo_menstrual: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     vsa: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     numero_parejas: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     numero_embarazos: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     numero_partos: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     abortos: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     cesareas: {
-        type: DataTypes.TINYINT
+        type: DataTypes.TINYINT,
+        defaultValue: 0
     },
     metodo_anticonceptivo: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     fecha_ultima_menstruacion: {
         type: DataTypes.DATE
     },
     ets: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
     },
     menopausia: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     papanicolau: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     },
     lactancia_materna: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 

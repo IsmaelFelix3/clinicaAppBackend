@@ -23,34 +23,44 @@ const Paciente = db.define('Paciente', {
         type:DataTypes.STRING
     },
     lugar_nacimiento: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'Sin informacion'
     },
     calle_y_numero:{
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'Sin informacion'
     },
     colonia: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'Sin informacion'
     },
     municipio: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'Sin informacion'
     },
     estado: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'Sin informacion'
     },
     estado_civil: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Sin informacion'
     },
     escolaridad: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Sin informacion'
     },
     profesion: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Sin informacion'
     },
     nacionalidad: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Sin informacion'
     },
     codigo_postal: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'N/A'
     },
     correo: {
         type: DataTypes.STRING
@@ -65,7 +75,8 @@ const Paciente = db.define('Paciente', {
         type: DataTypes.INTEGER
     },
     rol: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'Paciente'
     },
     fecha_registro: {
         type: DataTypes.DATE

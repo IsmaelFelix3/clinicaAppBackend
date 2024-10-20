@@ -9,7 +9,8 @@ const Hospitalizacion = db.define('Hospitalizaciones', {
         primaryKey: true
     },
     descripcion_hospitalizacion: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
     }
 });
 
