@@ -31,6 +31,10 @@ const Antecedentes_Personales_Patologicos = db.define('Antecedentes_Personales_P
         type: DataTypes.STRING,
         defaultValue: 'N/R'
     },
+    enfermedades_cronico_degenerativas: {
+        type: DataTypes.TEXT,
+        defaultValue: 'N/R'
+    }
 });
 
 Antecedentes_Personales_Patologicos.hasOne( Hospitalizacion, 
