@@ -4,7 +4,8 @@ import { deleteProcedimiento, getCurrentProceduresDoctor,
     getProcedimientos, getProceduresByDay, getProceduresCalendarAdmin, 
     getProceduresCalendarDoctor, getProceduresMonthDoctor, postProcedimiento, 
     putProcedimiento , getAllProceduresCurrentDay,
-    getProceduresMonth
+    getProceduresMonth,
+    getProceduresDoctorFC
 } from "../controllers/procedimientos.controller";
 
 const router = Router();
@@ -21,6 +22,7 @@ router.get('/getProceduresCalendarAdmin/:date&:idMedico', getProceduresCalendarA
 router.get('/getProcedure/:id', getProcedimiento);
 router.get('/getAllProceduresCurrentDay/', getAllProceduresCurrentDay);
 router.get('/getProceduresMonth/', getProceduresMonth);
+router.get('/getProceduresDoctorFC/:idMedico', getProceduresDoctorFC);
 
 
 

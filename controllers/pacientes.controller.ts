@@ -148,6 +148,7 @@ export const postPaciente = async( req: Request, res: Response ) => {
         let bodyExpediente= {};
 
         if(paciente.genero == 'Masculino'){
+            console.log('entro mas')
             const antecedentesAndro: any = AntecedentesAndrologicos.build();
             await antecedentesAndro.save();
             bodyExpediente = {
@@ -160,6 +161,7 @@ export const postPaciente = async( req: Request, res: Response ) => {
 
         }
         else{
+            console.log('entro fem')
             const antecedentesGO: any = AntecedentesGinecoObstetrico.build();
             await antecedentesGO.save();
             bodyExpediente = {
@@ -170,6 +172,8 @@ export const postPaciente = async( req: Request, res: Response ) => {
                 id_antecedentes_gineco_obstetrico: antecedentesGO.id_antecedentes_gineco_obstetrico
             }
         }
+
+        console.log('salio bien')
     
         const expediente:any = Expediente.build(bodyExpediente)
         await expediente.save();
@@ -185,6 +189,10 @@ export const postPaciente = async( req: Request, res: Response ) => {
             });
         }
 
+        console.log('salio bien el update')
+
+        console.log(body)
+
         const infoMedico = await Medico.findOne({ 
             where: { 
                 correo: body.medico[0] 
@@ -192,6 +200,8 @@ export const postPaciente = async( req: Request, res: Response ) => {
         });
         console.log(infoMedico?.dataValues.id_medico)
         const idMedico = infoMedico?.dataValues.id_medico;
+
+        console.log('salio bien la busqueda de medico')
 
 
         const relacionMedicoPaciente = await MedicoPaciente.findOne({ 

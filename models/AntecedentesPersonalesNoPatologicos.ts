@@ -20,10 +20,6 @@ const Antecendentes_Personales_No_Patologicos = db.define('Antecedentes_Personal
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
-    diabetes: {
-        type: DataTypes.STRING,
-        defaultValue: 'N/R'
-    },
     id_inmunizacion: {
         type: DataTypes.MEDIUMINT
     },

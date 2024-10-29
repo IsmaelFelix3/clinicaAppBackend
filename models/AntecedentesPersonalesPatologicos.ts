@@ -26,7 +26,11 @@ const Antecedentes_Personales_Patologicos = db.define('Antecedentes_Personales_P
     },
     id_otras_enfermedades: {
         type: DataTypes.MEDIUMINT
-    }
+    },
+    diabetes: {
+        type: DataTypes.STRING,
+        defaultValue: 'N/R'
+    },
 });
 
 Antecedentes_Personales_Patologicos.hasOne( Hospitalizacion, 

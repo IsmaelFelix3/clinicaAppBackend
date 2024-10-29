@@ -349,7 +349,7 @@ export const getProceduresByDay = async ( req: Request, res: Response ) => {
             ['fecha_procedimiento_inicio', 'ASC']
         ],
         attributes: [
-            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'estatus', 'id_procedimiento'
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'id_procedimiento'
         ]
     });
     
@@ -395,8 +395,8 @@ export const getProceduresMonth = async(req: Request, res: Response) => {
 
     let date = new Date();
     const month = date.getUTCMonth()
-    const firstDate = new Date(date.getFullYear(),month,1,0-7);
-    const lastDate = new Date(date.getFullYear(),month + 1,0,0-7);
+    const firstDate = new Date(date.getFullYear(),0,1,0-7);
+    const lastDate = new Date(date.getFullYear(),11 + 1,0,0-7);
 
     try {
         const procedimientos = await Procedimientos.findAll({ 
@@ -434,6 +434,59 @@ export const getProceduresMonth = async(req: Request, res: Response) => {
     }
 
 }
+
+export const getProceduresDoctorFC = async(req: Request, res: Response) => {
+
+    const { idMedico } = req.params;
+
+    let date = new Date();
+    const month = date.getUTCMonth()
+    const firstDate = new Date(date.getFullYear(),0,1,0-7);
+    const lastDate = new Date(date.getFullYear(),11 + 1,0,0-7);
+    console.log(firstDate)
+    console.log(lastDate)
+
+
+    try {
+        const procedimientos = await Procedimientos.findAll({ 
+            include: [
+                { model: Paciente, attributes: ['nombre','apellidos', 'id_paciente'] },
+                { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano', 'color'] },
+                { model: Catalogo_Procedimientos, attributes: ['id_procedimiento', 'nombre_procedimiento'] },
+                { model: Medico, attributes: ['id_medico','nombre','apellidos']},
+            ],
+            where: {
+                id_medico: {
+                    [Op.eq]: idMedico
+                },
+                estatus: {
+                    [Op.ne]: 'Cancelado'
+                },
+                fecha_procedimiento_inicio: {
+                    [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
+                }
+            },
+            order: [
+                ['fecha_procedimiento_inicio', 'ASC']
+            ],
+            attributes: [
+                'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'id_procedimiento'
+            ]
+        });
+
+        res.json({
+            msg: 'getProceduresMonth',
+            procedimientos
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Hable con el administrador'
+        });
+    }
+
+}
+
 
 export const getProceduresCalendarAdmin = async ( req: Request, res: Response ) => {
 
