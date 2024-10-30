@@ -53,6 +53,7 @@ export const getExpedientes = async( req: Request, res: Response ) => {
 export const getExpediente = async( req: Request, res: Response ) => {
 
     const { id } = req.params;
+    console.log('first')
 
     const expediente = await Expediente.findByPk(id, 
         {
@@ -105,6 +106,7 @@ export const postExpediente = async( req: Request, res: Response ) => {
     const { body } = req;
 
     console.log(body,'body')
+    console.log('post')
 
     try {
         const expediente = Expediente.build(body);
@@ -147,7 +149,9 @@ export const putExpediente = async( req: Request, res: Response ) => {
         secuelas: body.secuelas,
         id_hospitalizacion: body.idHospitalizacion,
         id_antecedentes_quirurgicos: body.idQuirurgicos,
-        id_otras_enfermedades: body.idOtrasEnfermedades
+        id_otras_enfermedades: body.idOtrasEnfermedades,
+        diabetes: body.diabetes,
+        enfermedades_cronico_degenerativas: body.enfermedadesCronicoDegenerativas
     }
 
     const bodyAntecedentesPNP = {
@@ -155,7 +159,6 @@ export const putExpediente = async( req: Request, res: Response ) => {
         fumador: body.fumador,
         alcohol: body.alcohol,
         drogas: body.drogas,
-        diabetes: body.diabetes,
         id_inmunizacion: body.idInmunizacion,
         otros: body.otros
     }

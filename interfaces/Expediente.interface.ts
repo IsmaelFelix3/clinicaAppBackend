@@ -57,4 +57,5 @@ export interface ExpedienteBody {
     familiarNefropatas:                    string;
     descripcionMalformaciones:             string;
     genero:                                string;
+    enfermedadesCronicoDegenerativas:      string;
 }
