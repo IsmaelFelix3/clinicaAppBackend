@@ -62,6 +62,12 @@ const Cita = db.define('Citas', {
     },
     tratamiento: {
         type: DataTypes.TEXT
+    },
+    evolucion: {
+        type: DataTypes.TEXT
+    },
+    pronostico: {
+        type: DataTypes.TEXT
     }
 });
 
