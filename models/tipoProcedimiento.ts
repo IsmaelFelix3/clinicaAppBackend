@@ -5,7 +5,7 @@ import Procedimientos from "./procedimientos";
 
 const Tipo_Procedimientos = db.define('Tipo_Procedimientos', {
     id_tipo_procedimiento: {
-        type: DataTypes.SMALLINT,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
