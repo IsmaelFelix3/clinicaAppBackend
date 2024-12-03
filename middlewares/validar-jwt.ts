@@ -8,7 +8,7 @@ export interface CustomRequest extends Request {
     token: string | JwtPayload;
    }
 
-   const JWT_SEED = process.env.JWT_SEED || 'E99878F9A6F071FD40D5863BCB2075C78FF2010EF4D2289E884848160D2716BD';
+   const JWT_SEED = process.env.JWT_SEED;
 
 const validarJWT = async(req: any, res: Response, next: NextFunction) => {
 
@@ -26,7 +26,7 @@ const validarJWT = async(req: any, res: Response, next: NextFunction) => {
 
     try {
         console.log('llego')
-        const decoded = jwt.verify( token, JWT_SEED,  (err: any, result: any) => { return res.status(200).send({ err: err, result: result, }); });
+        const decoded = jwt.verify( token, JWT_SEED!,  (err: any, result: any) => { return res.status(200).send({ err: err, result: result, }); });
         console.log('llego aqui')
         
         // (req as CustomRequest).token = decoded;

@@ -14,6 +14,8 @@ export const getNotasEvolucion = async( req: Request, res: Response ) => {
 
 export const getNotaEvolucion = async( req: Request, res: Response ) => {
 
+    console.log('entro')
+
     const { id } = req.params;
 
     const notaEvolucion = await NotaEvolucion.findByPk(id);

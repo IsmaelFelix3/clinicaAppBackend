@@ -9,8 +9,8 @@ import {
 
 const router = Router();
 
-router.get('/', getNotasEvolucion );
-router.get('/:id', getNotaEvolucion );
+router.get('/:idPaciente', getNotasEvolucion );
+router.get('/getEvolutionNote/:id', getNotaEvolucion );
 router.post('/', postNotaEvolucion );
 router.put('/:id', putNotaEvolucion );
 router.delete('/:id', deleteNotaEvolucion );
