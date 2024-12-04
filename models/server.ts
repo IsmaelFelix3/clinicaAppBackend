@@ -170,7 +170,7 @@ class Server {
 
     listen(){
         this.app.listen( this.port, () => {
-            console.log(DB_NAME, DB_HOST,DB_PASSWORD)
+            console.log(process.env.PORT)
             console.log('Servidor corriendo en puerto ' + this.port);
         } )
     }
