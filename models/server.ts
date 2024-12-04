@@ -106,7 +106,7 @@ class Server {
 
     async dbConnection(){
         try {
-
+            console.log(db)
             await db.authenticate();
             console.log('Database online')
             
