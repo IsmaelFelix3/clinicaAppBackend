@@ -43,6 +43,7 @@ import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProce
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
+import { DB_HOST, DB_NAME, DB_PASSWORD } from "../config";
 
 class Server {
 
@@ -169,6 +170,7 @@ class Server {
 
     listen(){
         this.app.listen( this.port, () => {
+            console.log(DB_NAME, DB_HOST,DB_PASSWORD)
             console.log('Servidor corriendo en puerto ' + this.port);
         } )
     }
