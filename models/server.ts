@@ -111,6 +111,7 @@ class Server {
             console.log('Database online')
             
         } catch (error: any) {
+            console.log('Unable to connect to Database')
             throw new Error( error );
             
         }
