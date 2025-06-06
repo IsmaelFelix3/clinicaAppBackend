@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Op, Sequelize, where } from "sequelize";
 import moment from "moment";
 import CatalogoProcedimiento from '../models/CatalogoProcedimiento';
+import Quirofano from "../models/quirofano";
 
 
 export const getCatalogoProcedimientos = async (req: Request, res: Response) => {
@@ -28,10 +29,11 @@ export const getCatalogoProcedimientosByOperatingRoom = async (req: Request, res
     try {
         const { operatingRoomId } = req.params;
 
-        console.log(operatingRoomId)
+        console.log(operatingRoomId) 
 
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
             attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento', 'quirofano'],
+            include: Quirofano,
             raw: true,
             where: {
                 quirofano: operatingRoomId

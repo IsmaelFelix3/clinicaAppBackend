@@ -1,6 +1,7 @@
 
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Quirofano from "./quirofano";
 
 const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     id_procedimiento: {
@@ -23,6 +24,11 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
 {
     freezeTableName: true,
     tableName: 'catalogo_procedimientos'
+});
+
+Catalogo_Procedimientos.hasOne(Quirofano,{
+    foreignKey: 'id_quirofano',
+    sourceKey: 'quirofano'
 });
 
 // Tipo_Procedimientos.belongsTo( Procedimientos, { foreignKey: 'id_tipo_procedimiento'} );
