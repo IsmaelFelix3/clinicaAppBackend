@@ -63,7 +63,7 @@ export const postUsuario = async( req: Request, res: Response ) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Hable con el administradorrrr'
         });
     }
 }
