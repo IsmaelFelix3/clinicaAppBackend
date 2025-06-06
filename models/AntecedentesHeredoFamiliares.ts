@@ -47,6 +47,10 @@ const Antecedentes_Heredo_Familiares = db.define('Antecedentes_Heredo_Familiares
         type: DataTypes.STRING,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_heredo_familiares'
 });
 
 export default Antecedentes_Heredo_Familiares;

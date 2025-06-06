@@ -35,6 +35,10 @@ const Antecedentes_Personales_Patologicos = db.define('Antecedentes_Personales_P
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_personales_patologicos'
 });
 
 Antecedentes_Personales_Patologicos.hasOne( Hospitalizacion, 

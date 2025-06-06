@@ -35,6 +35,11 @@ const Antecedentes_Andrologicos = db.define('Antecedentes_Andrologicos', {
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
-});
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_andrologicos'
+}
+);
 
 export default Antecedentes_Andrologicos;

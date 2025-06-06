@@ -22,6 +22,11 @@ const Receta = db.define('Recetas', {
     tratamiento: {
         type: DataTypes.TEXT
     }
-});
+},
+{
+    freezeTableName: true,
+    tableName: 'recetas'
+},
+);
 
 export default Receta;

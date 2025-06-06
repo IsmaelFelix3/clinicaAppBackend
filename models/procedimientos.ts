@@ -38,6 +38,10 @@ const Procedimientos = db.define('Procedimientos', {
     detalles:{
         type: DataTypes.TEXT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'procedimientos'
 }
 );
 

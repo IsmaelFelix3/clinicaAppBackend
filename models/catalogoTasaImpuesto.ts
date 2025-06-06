@@ -34,6 +34,10 @@ const Catalogo_Tasa_Impuesto = db.define('Catalogo_Tasa_Impuesto', {
     estado: {
         type: DataTypes.BOOLEAN
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_tasa_impuestos'
 }
 );
 

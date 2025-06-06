@@ -101,7 +101,9 @@ const Insumo = db.define('Insumos', {
     }
 },
 {
-    initialAutoIncrement: '1000'
+    initialAutoIncrement: '1000',
+    freezeTableName: true,
+    tableName: 'insumos'
 }
 );
 

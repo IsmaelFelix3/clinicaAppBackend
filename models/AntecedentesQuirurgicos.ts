@@ -11,6 +11,10 @@ const Antecedentes_Quirurgicos = db.define('Antecedentes_Quirurgicos', {
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_quirurgicos'
 });
 
 export default Antecedentes_Quirurgicos;

@@ -10,6 +10,10 @@ const Catalogo_Unidad_Medida = db.define('Catalogo_Unidad_Medida', {
     unidad_medida: {
         type: DataTypes.STRING
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_unidad_medidas'
 }
 );
 

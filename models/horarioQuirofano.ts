@@ -16,6 +16,10 @@ const HorariosQuirofanos = db.define('Horarios_Quirofanos', {
     minuntos: {
         type: DataTypes.INTEGER
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'horarios_quirofanos'
 });
 
 export default HorariosQuirofanos;

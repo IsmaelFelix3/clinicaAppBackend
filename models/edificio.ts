@@ -13,6 +13,10 @@ const Edificio = db.define('Edificio', {
     num_consultorios: {
         type: DataTypes.TINYINT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'edificios'
 });
 
 export default Edificio;

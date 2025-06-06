@@ -43,7 +43,8 @@ import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProce
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
-import { DB_HOST, DB_NAME, DB_PASSWORD } from "../config";
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, PORT } from "../config";
+import { env } from "process";
 
 class Server {
 
@@ -95,7 +96,7 @@ class Server {
 
     constructor(){
         this.app = express();
-        this.port = process.env.PORT || '8000';
+        this.port = PORT as string || '8000';
 
         this.dbConnection();
         // Metodos iniciales
@@ -171,7 +172,10 @@ class Server {
 
     listen(){
         this.app.listen( this.port, () => {
-            console.log(process.env.PORT)
+            console.log(DB_HOST)
+            console.log(DB_NAME)
+            console.log(DB_USER)
+            console.log(PORT)
             console.log('Servidor corriendo en puerto ' + this.port);
         } )
     }

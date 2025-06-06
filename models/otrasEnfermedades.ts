@@ -11,6 +11,10 @@ const Otras_Enfermedades = db.define('Otras_Enfermedades', {
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'otras_enfermedades'
 });
 
 export default Otras_Enfermedades;

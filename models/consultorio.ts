@@ -1,22 +1,23 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
 
-const Piso = db.define('Piso', {
-    id_piso: {
+const Consultorio = db.define('Consultorio', {
+    id_consultorio: {
         type: DataTypes.TINYINT,
         autoIncrement: true,
         primaryKey: true
     },
-    id_edificio: {
-        type: DataTypes.MEDIUMINT
-    },
-    descripcion_piso: {
+    descripcion_consultorio: {
         type: DataTypes.STRING
+    },
+    id_edificio: {
+        type: DataTypes.TINYINT
     }
 },
 {
     freezeTableName: true,
-    tableName: 'pisos'
-});
+    tableName: 'consultorios'
+}
+);
 
-export default Piso;
+export default Consultorio;

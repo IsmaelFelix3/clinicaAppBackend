@@ -26,7 +26,9 @@ const Nota_Evolucion = db.define('Nota_Evolucion', {
         type: DataTypes.DATE
     }
 },{
-    freezeTableName: true
+    freezeTableName: true,
+    initialAutoIncrement: '1000',
+    tableName: 'nota_evolucion'
 });
 
 export default Nota_Evolucion;

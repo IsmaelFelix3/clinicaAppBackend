@@ -13,6 +13,10 @@ const Catalogo_Clasificacion_Insumo = db.define('Catalogo_Clasificacion_Insumo',
     estado: {
         type: DataTypes.BOOLEAN
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_clasificacion_insumos'
 }
 );
 

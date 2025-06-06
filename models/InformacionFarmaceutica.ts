@@ -25,6 +25,10 @@ const InformacionFarmaceutica = db.define('Informacion_Farmaceutica', {
     estado: {
         type: DataTypes.BOOLEAN
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'informacion_farmaceutica'
 }
 );
 

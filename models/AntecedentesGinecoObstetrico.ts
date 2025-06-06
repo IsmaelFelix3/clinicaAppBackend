@@ -62,6 +62,10 @@ const Antecedentes_Gineco_Obstetrico = db.define('Antecedentes_Gineco_Obstetrico
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_gineco_obstetricos'
 });
 
 export default Antecedentes_Gineco_Obstetrico;

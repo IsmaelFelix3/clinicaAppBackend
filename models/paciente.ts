@@ -87,6 +87,10 @@ const Paciente = db.define('Paciente', {
     estatus: {
         type: DataTypes.TINYINT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'pacientes'
 });
 Paciente.hasOne( Expediente, 
     {

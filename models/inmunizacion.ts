@@ -11,6 +11,10 @@ const Inmunizacion = db.define('Inmunizaciones', {
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'inmunizaciones'
 });
 
 export default Inmunizacion; 

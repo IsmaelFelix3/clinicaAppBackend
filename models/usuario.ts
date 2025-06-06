@@ -2,7 +2,7 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
 
-const Usuario = db.define('Usuario', {
+const Usuario = db.define('Usuarios', {
     id_usuario: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,10 +24,12 @@ const Usuario = db.define('Usuario', {
     },
     fecha_registro: {
         type: DataTypes.DATE
-    }
+    },
 },
 {
-    initialAutoIncrement: '1000'
+    initialAutoIncrement: '1000',
+    freezeTableName: true,
+    tableName: 'usuarios'
 });
 
 export default Usuario;

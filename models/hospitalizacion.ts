@@ -12,6 +12,10 @@ const Hospitalizacion = db.define('Hospitalizaciones', {
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'hospitalizaciones'
 });
 
 

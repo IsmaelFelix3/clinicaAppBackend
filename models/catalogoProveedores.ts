@@ -10,6 +10,10 @@ const Catalogo_Proveedores = db.define('Catalogo_Proveedores', {
     nombre_proveedor: {
         type: DataTypes.STRING
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_proveedores'
 }
 );
 

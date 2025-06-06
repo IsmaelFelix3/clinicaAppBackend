@@ -23,7 +23,8 @@ const Nota_PostOperatoria = db.define('Nota_PostOperatoria', {
         type: DataTypes.TEXT
     },
 },{
-    freezeTableName: true
+    freezeTableName: true,
+    tableName: 'nota_postoperatoria'
 });
 
 export default Nota_PostOperatoria;

@@ -19,6 +19,10 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     quirofano: {
         type: DataTypes.INTEGER
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_procedimientos'
 });
 
 // Tipo_Procedimientos.belongsTo( Procedimientos, { foreignKey: 'id_tipo_procedimiento'} );

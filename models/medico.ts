@@ -58,6 +58,10 @@ const Medico = db.define('Medico', {
     consultorio: {
         type: DataTypes.TINYINT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'medicos'
 });
 
 Cita.belongsTo(Medico, { foreignKey: 'id_medico' });

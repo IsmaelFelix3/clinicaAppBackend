@@ -102,7 +102,7 @@ const historialInsumosProcedimiento = db.define('Historial_Insumos_Procedimiento
 },
 {
     freezeTableName: true,
-    initialAutoIncrement: '1000'
+    tableName: 'historial_insumos_procedimiento'
 }
 );
 

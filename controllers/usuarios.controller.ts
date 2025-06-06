@@ -34,6 +34,7 @@ export const getUsuario = async( req: Request, res: Response ) => {
 }
 
 export const postUsuario = async( req: Request, res: Response ) => {
+    console.log('entro')
 
     const { body } = req;
     const { password } = body;

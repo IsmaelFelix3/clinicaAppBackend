@@ -10,6 +10,10 @@ const Medico_Paciente = db.define('Medico_Pacientes', {
     id_paciente: {
         type: DataTypes.INTEGER,
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'medico_pacientes'
 });
 
 export default Medico_Paciente;

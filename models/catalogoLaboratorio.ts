@@ -13,6 +13,10 @@ const Catalogo_Laboratorio = db.define('Catalogo_Laboratorio', {
     estado: {
         type: DataTypes.BOOLEAN
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_laboratorios'
 }
 );
 

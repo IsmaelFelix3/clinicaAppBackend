@@ -10,6 +10,10 @@ const Catalogo_Marca = db.define('Catalogo_Marca', {
     nombre_marca: {
         type: DataTypes.STRING
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'catalogo_marcas'
 }
 );
 

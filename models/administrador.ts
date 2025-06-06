@@ -34,8 +34,9 @@ const Administrador = db.define('Administradores', {
     }
 },
 {
-    initialAutoIncrement: '1000'
-}
-);
+    initialAutoIncrement: '1000',
+    freezeTableName: true,
+    tableName: 'administradores'
+});
 
 export default Administrador;

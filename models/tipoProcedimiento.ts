@@ -20,6 +20,10 @@ const Tipo_Procedimientos = db.define('Tipo_Procedimientos', {
     tiempo_procedimiento: {
         type: DataTypes.STRING
     },
+},
+{
+    freezeTableName: true,
+    tableName: 'tipo_procedimientos'
 });
 
 // Tipo_Procedimientos.belongsTo( Procedimientos, { foreignKey: 'id_tipo_procedimiento'} );

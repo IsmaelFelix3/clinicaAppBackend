@@ -13,6 +13,10 @@ const Estudio_Realizado = db.define('Estudios_Realizados', {
     archivo: {
         type: DataTypes.STRING
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'estudios_realizados'
 });
 
 export default Estudio_Realizado;

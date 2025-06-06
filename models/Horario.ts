@@ -9,6 +9,10 @@ const Horario = db.define('Horarios', {
     horario: {
         type: DataTypes.SMALLINT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'horarios'
 });
 
 export default Horario;

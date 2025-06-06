@@ -46,6 +46,10 @@ const Expediente = db.define('Expediente', {
     id_antecedentes_gineco_obstetrico: {
         type: DataTypes.MEDIUMINT
     },
+},
+{
+    freezeTableName: true,
+    tableName: 'expedientes'
 });
 
 Expediente.hasOne( Antecedentes_Personales_Patologicos,

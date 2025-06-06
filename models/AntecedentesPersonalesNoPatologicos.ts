@@ -27,6 +27,10 @@ const Antecendentes_Personales_No_Patologicos = db.define('Antecedentes_Personal
         type: DataTypes.TEXT,
         defaultValue: 'N/R'
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'antecedentes_personales_no_patologicos'
 });
 
 Antecendentes_Personales_No_Patologicos.hasMany( Inmunizacion,

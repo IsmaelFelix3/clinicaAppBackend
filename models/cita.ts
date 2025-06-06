@@ -69,7 +69,12 @@ const Cita = db.define('Citas', {
     pronostico: {
         type: DataTypes.TEXT
     }
-});
+},
+{
+    freezeTableName: true,
+    tableName: 'citas'
+}
+);
 
 // Paciente.hasMany(Cita, { foreignKey: 'id_paciente' });
 

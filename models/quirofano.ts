@@ -17,6 +17,10 @@ const Quirofano = db.define('Quirofanos', {
     color: {
         type: DataTypes.TEXT
     }
+},
+{
+    freezeTableName: true,
+    tableName: 'quirofanos'
 }
 );
 
