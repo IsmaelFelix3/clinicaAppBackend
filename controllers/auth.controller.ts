@@ -8,6 +8,7 @@ import { JwtAdapter } from '../helpers/index';
 // const { generarJWT } = require("../helpers/generar-jwt");
 
 export const login = async(req: Request, res: Response) => {
+    console.log('Entro Railways')
 
     const { correo, password } = req.body;
 
