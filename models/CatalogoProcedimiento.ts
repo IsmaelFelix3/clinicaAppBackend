@@ -19,6 +19,9 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     },
     quirofano: {
         type: DataTypes.INTEGER
+    },
+    precioBase: {
+        type: DataTypes.DECIMAL
     }
 },
 {
