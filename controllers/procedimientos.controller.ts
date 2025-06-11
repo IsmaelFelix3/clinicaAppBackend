@@ -47,6 +47,8 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
         date = new Date(selectedDate);
     }
 
+    console.log(date)
+
     
     let userTimezoneOffset = date.getTimezoneOffset() * 60000;
     let correctedDate = new Date(date.getTime() - userTimezoneOffset);
