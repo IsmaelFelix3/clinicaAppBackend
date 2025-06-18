@@ -38,7 +38,6 @@ const Medico = db.define('Medico', {
     },
     rol: {
         type: DataTypes.STRING,
-        defaultValue: 'Doctor'
     },
     fecha_registro: {
         type: DataTypes.DATE
@@ -49,7 +48,6 @@ const Medico = db.define('Medico', {
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'Doctor123'
     },
     estatus: {
         type: DataTypes.TINYINT,
