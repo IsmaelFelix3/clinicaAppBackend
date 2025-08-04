@@ -109,8 +109,8 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
             id_medico: body.doctor,
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
-            fecha_procedimiento_inicio: body.startDate,
-            //fecha_procedimiento_fin: null,
+            fecha_procedimiento_inicio: startDateCorrected,
+            fecha_procedimiento_fin: endDateCorrected,
             id_procedimiento: body.procedure,
             estatus: body.status,
             detalles: body.details
@@ -139,7 +139,8 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
                 msg: 'El horario seleccionado no se encuentra disponible, favor de seleccionar otro'
             });
         }
-
+        console.log('-----reserva-----')
+        console.log(reserva)
         const procedimiento = Procedimientos.build(reserva);
         await procedimiento.save();
         res.status(200).json({
