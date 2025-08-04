@@ -88,6 +88,7 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
 export const postProcedimiento = async (req: Request, res: Response ) => {
 
     const { body } = req;
+    console.log('----Aqui----')
     console.log(body)
     try {
         // const procedimientoNuevo = await Procedimientos.findOne({ 
