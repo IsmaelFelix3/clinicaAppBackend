@@ -88,8 +88,6 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
 export const postProcedimiento = async (req: Request, res: Response ) => {
 
     const { body } = req;
-    console.log('----Aqui----')
-    console.log(body)
     try {
         // const procedimientoNuevo = await Procedimientos.findOne({ 
         //     where: {
@@ -102,10 +100,6 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
 
         
         let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-
-        console.log('userTimezoneOffset----------')
-        console.log(userTimezoneOffset)
-
         let startDateCorrected = new Date(new Date(body.startDate).getTime() - userTimezoneOffset);
         let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);
         
@@ -136,15 +130,13 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
                 }
          });
 
-        console.log(procedimientoNuevo)
 
         if(procedimientoNuevo){ 
             return res.status(400).json({
                 msg: 'El horario seleccionado no se encuentra disponible, favor de seleccionar otro'
             });
         }
-        console.log('-----reserva-----')
-        console.log(reserva)
+
         const procedimiento = Procedimientos.build(reserva);
         await procedimiento.save();
         res.status(200).json({
