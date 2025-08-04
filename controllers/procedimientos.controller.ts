@@ -88,6 +88,9 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
 export const postProcedimiento = async (req: Request, res: Response ) => {
 
     const { body } = req;
+
+    console.log('body-------')
+    console.log(body)
     try {
         // const procedimientoNuevo = await Procedimientos.findOne({ 
         //     where: {
@@ -100,6 +103,8 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
 
         
         let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        console.log('userTimezoneOffset------')
+        console.log(userTimezoneOffset)
         let startDateCorrected = new Date(new Date(body.startDate).getTime() - userTimezoneOffset);
         let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);
         
