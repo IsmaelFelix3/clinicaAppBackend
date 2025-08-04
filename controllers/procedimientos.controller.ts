@@ -102,6 +102,10 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
 
         
         let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+
+        console.log('userTimezoneOffset----------')
+        console.log(userTimezoneOffset)
+
         let startDateCorrected = new Date(new Date(body.startDate).getTime() - userTimezoneOffset);
         let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);
         
