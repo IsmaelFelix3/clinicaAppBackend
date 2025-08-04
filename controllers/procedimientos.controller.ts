@@ -109,7 +109,7 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
             fecha_procedimiento_inicio: body.startDate,
-            fecha_procedimiento_fin: body.endDate,
+            fecha_procedimiento_fin: null,
             id_procedimiento: body.procedure,
             estatus: body.status,
             detalles: body.details
