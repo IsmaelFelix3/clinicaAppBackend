@@ -7,6 +7,8 @@ import Paciente from '../models/paciente';
 import Quirofano from "../models/quirofano";
 import Medico from "../models/medico";
 import Catalogo_Procedimientos from "../models/CatalogoProcedimiento";
+import Catalogo_Banco from "../models/banco";
+import Catalogo_Forma_Pago from "../models/formaPago";
 
 export const getProcedimiento = async (req: Request, res: Response) => {
     const { id } = req.params; 
@@ -102,18 +104,18 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
         // });
 
         
-        let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+        /*let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
         console.log('userTimezoneOffset------')
         console.log(userTimezoneOffset)
         let startDateCorrected = new Date(new Date(body.startDate).getTime() - userTimezoneOffset);
-        let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);
+        let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);*/
         
         const reserva = {
             id_medico: body.doctor,
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
-            fecha_procedimiento_inicio: startDateCorrected,
-            fecha_procedimiento_fin: endDateCorrected,
+            fecha_procedimiento_inicio: body.startDate,
+            fecha_procedimiento_fin: body.endDate,
             id_procedimiento: body.procedure,
             estatus: body.status,
             detalles: body.details
@@ -127,10 +129,10 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
                     },
                     id_quirofano: body.operatingRoom,
                     fecha_procedimiento_inicio: {
-                        [Op.eq]: startDateCorrected
+                        [Op.eq]: body.startDate
                     },
                     fecha_procedimiento_fin: {
-                        [Op.eq]: endDateCorrected
+                        [Op.eq]: body.endDate
                     }
                 }
          });
@@ -165,9 +167,9 @@ export const putProcedimiento = async (req: Request, res: Response ) => {
 
     try {
 
-        let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+       /* let userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
         let startDateCorrected = new Date(new Date(body.startDate).getTime() - userTimezoneOffset);
-        let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);
+        let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);*/
 
         const procedimiento = await Procedimientos.findByPk(id);
 
@@ -187,10 +189,10 @@ export const putProcedimiento = async (req: Request, res: Response ) => {
                 },
                 id_quirofano: body.operatingRoom,
                 fecha_procedimiento_inicio: {
-                    [Op.eq]: startDateCorrected
+                    [Op.eq]: body.startDate
                 },
                 fecha_procedimiento_fin: {
-                    [Op.eq]: endDateCorrected
+                    [Op.eq]: body.endDate
                 }
             }
         });
@@ -208,8 +210,8 @@ export const putProcedimiento = async (req: Request, res: Response ) => {
             id_medico: body.doctor,
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
-            fecha_procedimiento_inicio: startDateCorrected,
-            fecha_procedimiento_fin: endDateCorrected,
+            fecha_procedimiento_inicio: body.startDate,
+            fecha_procedimiento_fin: body.endDate,
             id_procedimiento: body.procedure,
             estatus: body.status,
             detalles: body.details
@@ -569,3 +571,81 @@ export const getProceduresCalendarAdmin = async ( req: Request, res: Response ) 
         procedimientos
     });
  }
+
+ 
+export const getAccountingProcedure = async (req: Request, res: Response) => {
+    const { id } = req.params; 
+    try {
+
+        const procedimiento = await Procedimientos.findByPk(id, {
+            attributes: [ 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'detalles', 'costo' ],
+            include: [
+                { model: Paciente, attributes: ['id_paciente','nombre','apellidos'] },
+                { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },
+                { model: Medico, attributes: ['id_medico','nombre','apellidos']},
+                { model: Catalogo_Procedimientos, attributes: ['id_procedimiento','nombre_procedimiento'] },
+                { model: Catalogo_Banco, attributes: ['id_banco','nombre_banco'] },
+                { model: Catalogo_Forma_Pago, attributes: ['id_forma_pago', 'nombre_forma_pago'] }
+            ],
+            raw: true 
+        });
+
+
+        res.json({
+            msg: 'getAccountingProcedure',
+            procedimiento
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+export const getAccountingProcedures = async (req: Request, res: Response ) => {
+
+    const { selectedDate } = req.params; 
+    console.log(selectedDate)
+    let date = new Date().toUTCString();
+
+    if(selectedDate != 'null'){
+        date = new Date(selectedDate).toUTCString();
+    }
+
+    console.log(date)
+
+
+    const day = new Date(date).getUTCDate() + 1;
+    const dayPlus = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day,0-7);
+
+    const procedimientos = await Procedimientos.findAndCountAll({
+        include: [
+            { model: Paciente, attributes: ['nombre','apellidos', 'id_paciente'] },
+            { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },
+            { model: Medico, attributes: ['id_medico','nombre','apellidos']},
+            { model: Catalogo_Procedimientos, attributes: ['id_procedimiento', 'nombre_procedimiento'] },
+            { model: Catalogo_Banco, attributes: ['id_banco', 'nombre_banco'] },
+            { model: Catalogo_Forma_Pago, attributes: ['id_forma_pago', 'nombre_forma_pago'] }
+        ],
+        
+        where: {
+            fecha_procedimiento_inicio: {
+                [Op.and]: [{ [Op.gte]: date },{ [Op.lt]: dayPlus }],
+            }
+        },
+        order: [
+            ['fecha_procedimiento_inicio', 'ASC']
+        ],
+        attributes: [
+            'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 
+            'fecha_procedimiento_fin', 'id_procedimiento', 'estatus', 'id_banco', 'id_forma_pago', 'costo'
+        ]
+    });
+    
+    res.json({
+        msg: 'getAccountingProcedures',
+        procedimientos
+    });
+}

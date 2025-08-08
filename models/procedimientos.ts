@@ -3,6 +3,8 @@ import db from "../db/connection";
 import Quirofano from "./quirofano";
 import Tipo_Procedimientos from './tipoProcedimiento';
 import Catalogo_Procedimientos from "./CatalogoProcedimiento";
+import Catalogo_Forma_Pago from "./formaPago";
+import Catalogo_Banco from "./banco";
 
 const Procedimientos = db.define('Procedimientos', {
     serie: {
@@ -37,6 +39,15 @@ const Procedimientos = db.define('Procedimientos', {
     },
     detalles:{
         type: DataTypes.TEXT
+    },
+    costo: {
+        type: DataTypes.DECIMAL
+    },
+    id_banco: {
+        type: DataTypes.TINYINT
+    },
+    id_forma_pago:{
+        type: DataTypes.TINYINT
     }
 },
 {
@@ -47,5 +58,8 @@ const Procedimientos = db.define('Procedimientos', {
 
 Procedimientos.belongsTo( Quirofano, { foreignKey: 'id_quirofano'} );
 Procedimientos.hasOne( Catalogo_Procedimientos, { foreignKey: 'id_procedimiento', sourceKey: 'id_procedimiento' });
+Procedimientos.hasOne( Catalogo_Forma_Pago, { foreignKey: 'id_forma_pago', sourceKey: 'id_forma_pago' });
+Procedimientos.hasOne( Catalogo_Banco, { foreignKey: 'id_banco', sourceKey: 'id_banco' });
+
 
 export default Procedimientos;

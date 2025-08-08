@@ -40,6 +40,8 @@ import catalogoMarcasRoutes from "../routes/catalogoMarcas.routes";
 import catalogoUnidadMedidasRoutes from "../routes/catalogoUnidadMedida.routes";
 import catalogoTasaImpuestosRoutes from "../routes/catalogoTasaImpuestos.routes";
 import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProcedimiento.routes";
+import catalogoBancosRoutes from "../routes/catalogoBanco.routes";
+import catalogoFormaPagoRoutes from "../routes/catalogoFormaPago.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -90,8 +92,9 @@ class Server {
         catalogoMarca: "/api/catalogoMarca",
         catalogoUnidadMedida: "/api/catalogoUnidadMedida",
         catalogoTasaImpuestos: "/api/catalogoTasaImpuesto",
-        historialInsumosProcedimiento: '/api/hip'
-
+        historialInsumosProcedimiento: '/api/hip',
+        catalogoBancos: '/api/banks',
+        catalogoFormasPago: '/api/paymentMethods'
     }
 
     constructor(){
@@ -167,7 +170,8 @@ class Server {
         this.app.use( this.apiPaths.catalogoUnidadMedida, catalogoUnidadMedidasRoutes );
         this.app.use( this.apiPaths.catalogoTasaImpuestos, catalogoTasaImpuestosRoutes );
         this.app.use( this.apiPaths.historialInsumosProcedimiento, historialInsumosProcedimientoRoutes );
-
+        this.app.use( this.apiPaths.catalogoBancos, catalogoBancosRoutes ),
+        this.app.use( this.apiPaths.catalogoFormasPago, catalogoFormaPagoRoutes )
     }
 
     listen(){
