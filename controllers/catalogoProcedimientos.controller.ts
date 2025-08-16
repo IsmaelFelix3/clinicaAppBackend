@@ -3,15 +3,18 @@ import { Request, Response } from "express";
 import { Op, Sequelize, where } from "sequelize";
 import moment from "moment";
 import CatalogoProcedimiento from '../models/CatalogoProcedimiento';
-import Quirofano from "../models/quirofano";
+import Catalogo_Especialidad from "../models/catalogoEspecialidades";
 
 
 export const getCatalogoProcedimientos = async (req: Request, res: Response) => {
     try {
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
-            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento', 'quirofano', 'precioBase'],
+            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento' ],
+            include: [{ model: Catalogo_Especialidad, attributes : ['id_especialidad', 'nombre_especialidad'] }],
             raw: true,
-            include: Quirofano,
+            order: [
+                ['nombre_procedimiento','ASC']
+            ]
         });
         res.json({
             msg: 'getCatalogoProcedimientos',
@@ -31,12 +34,12 @@ export const getCatalogoProcedimientosByOperatingRoom = async (req: Request, res
         const { operatingRoomId } = req.params;
 
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
-            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento', 'quirofano','precioBase'],
-            include: Quirofano,
-            raw: true,
-            where: {
-                quirofano: operatingRoomId
-            }
+            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento' ],
+            // include: Quirofano,
+            // raw: true,
+            // where: {
+            //     quirofano: operatingRoomId
+            // }
         });
         res.json({
             msg: 'getCatalogoProcedimientos',
@@ -53,19 +56,19 @@ export const getCatalogoProcedimientosByOperatingRoom = async (req: Request, res
 
 export const postCatalogoProcedimientos = async (req: Request, res: Response ) => {
     const body = req.body;
+    console.log(body)
     try {
         const catalogoProcedimiento = await CatalogoProcedimiento.findOne({ 
             where: {
-                nombre_procedimiento: body.nombre_procedimiento
+                nombre_procedimiento: body.nombre_procedimiento,
+                especialidad: body.especialidad
             }
         });
     
-
         if(catalogoProcedimiento){
-            res.json( {
-                msg: 'Este procedimiento ya esta dado de alta'
+            return res.status(400).json({
+                msg: 'Este procedimiento con esta especialidad ya esta dado de alta'
             });
-            return;
         }
 
         const catalogoProcedimientoNuevo = CatalogoProcedimiento.build(body);
@@ -90,8 +93,7 @@ export const getProcedureConfigurationDetails = async (req: Request, res: Respon
         const detallesProcedimiento = await CatalogoProcedimiento.findOne({ 
             where: {
                 id_procedimiento: id
-            },
-            include: Quirofano
+            }
         });
 
         res.status(200).json({

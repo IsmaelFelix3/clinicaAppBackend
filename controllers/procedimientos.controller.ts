@@ -618,6 +618,7 @@ export const getAccountingProcedures = async (req: Request, res: Response ) => {
 
 
     const day = new Date(date).getUTCDate() + 1;
+    const newDate = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day - 1 ,0-7)
     const dayPlus = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day,0-7);
 
     const procedimientos = await Procedimientos.findAndCountAll({
@@ -632,7 +633,7 @@ export const getAccountingProcedures = async (req: Request, res: Response ) => {
         
         where: {
             fecha_procedimiento_inicio: {
-                [Op.and]: [{ [Op.gte]: date },{ [Op.lt]: dayPlus }],
+                [Op.and]: [{ [Op.gte]: newDate },{ [Op.lt]: dayPlus }],
             }
         },
         order: [
@@ -648,4 +649,36 @@ export const getAccountingProcedures = async (req: Request, res: Response ) => {
         msg: 'getAccountingProcedures',
         procedimientos
     });
+}
+
+export const postAccountingProcedure = async (req: Request, res: Response ) => {
+
+    const { body } = req;
+
+    console.log('body-------')
+    console.log(body)
+    try {
+ 
+        const procedimientoNuevo = await Procedimientos.findByPk(body.id_reserva);
+
+        if(!procedimientoNuevo){ 
+            return res.status(400).json({
+                msg: 'No se encontro un procedimiento con ese numero de reserva'
+            });
+        }
+
+        // const procedimiento = Procedimientos.build(procedimientoNuevo.dataValues);
+        await procedimientoNuevo.update(body);
+        
+        res.status(200).json({
+            msg: 'Guardado con exito',
+            procedimientoNuevo,
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
 }

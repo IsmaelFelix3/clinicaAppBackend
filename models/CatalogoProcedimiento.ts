@@ -1,7 +1,7 @@
-
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
-import Quirofano from "./quirofano";
+import Catalogo_Especialidad from "./catalogoEspecialidades";
+
 
 const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     id_procedimiento: {
@@ -11,17 +11,11 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
         allowNull: false
     },
     especialidad:{
-        type: DataTypes.TEXT
+        type: DataTypes.MEDIUMINT
     },
     nombre_procedimiento: {
         type: DataTypes.STRING,
         unique: true,
-    },
-    quirofano: {
-        type: DataTypes.INTEGER
-    },
-    precioBase: {
-        type: DataTypes.DECIMAL
     }
 },
 {
@@ -29,10 +23,11 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     tableName: 'catalogo_procedimientos'
 });
 
-Catalogo_Procedimientos.hasOne(Quirofano,{
-    foreignKey: 'id_quirofano',
-    sourceKey: 'quirofano'
+Catalogo_Procedimientos.hasOne(Catalogo_Especialidad,{
+    foreignKey: 'id_especialidad',
+    sourceKey: 'especialidad'
 });
+
 
 // Tipo_Procedimientos.belongsTo( Procedimientos, { foreignKey: 'id_tipo_procedimiento'} );
 

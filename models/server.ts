@@ -42,6 +42,7 @@ import catalogoTasaImpuestosRoutes from "../routes/catalogoTasaImpuestos.routes"
 import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProcedimiento.routes";
 import catalogoBancosRoutes from "../routes/catalogoBanco.routes";
 import catalogoFormaPagoRoutes from "../routes/catalogoFormaPago.routes";
+import catalogoEspecialidadesRoutes from "../routes/catalogoEspecialidad.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -94,7 +95,8 @@ class Server {
         catalogoTasaImpuestos: "/api/catalogoTasaImpuesto",
         historialInsumosProcedimiento: '/api/hip',
         catalogoBancos: '/api/banks',
-        catalogoFormasPago: '/api/paymentMethods'
+        catalogoFormasPago: '/api/paymentMethods',
+        catalogoEspecialidades: '/api/specialties'
     }
 
     constructor(){
@@ -170,8 +172,9 @@ class Server {
         this.app.use( this.apiPaths.catalogoUnidadMedida, catalogoUnidadMedidasRoutes );
         this.app.use( this.apiPaths.catalogoTasaImpuestos, catalogoTasaImpuestosRoutes );
         this.app.use( this.apiPaths.historialInsumosProcedimiento, historialInsumosProcedimientoRoutes );
-        this.app.use( this.apiPaths.catalogoBancos, catalogoBancosRoutes ),
-        this.app.use( this.apiPaths.catalogoFormasPago, catalogoFormaPagoRoutes )
+        this.app.use( this.apiPaths.catalogoBancos, catalogoBancosRoutes );
+        this.app.use( this.apiPaths.catalogoFormasPago, catalogoFormaPagoRoutes );
+        this.app.use( this.apiPaths.catalogoEspecialidades, catalogoEspecialidadesRoutes );
     }
 
     listen(){

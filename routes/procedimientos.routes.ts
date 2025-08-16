@@ -7,7 +7,8 @@ import { deleteProcedimiento, getCurrentProceduresDoctor,
     getProceduresMonth,
     getProceduresDoctorFC,
     getAccountingProcedure,
-    getAccountingProcedures
+    getAccountingProcedures,
+    postAccountingProcedure
 } from "../controllers/procedimientos.controller";
 
 const router = Router();
@@ -27,6 +28,7 @@ router.get('/getProceduresMonth/', getProceduresMonth);
 router.get('/getProceduresDoctorFC/:idMedico', getProceduresDoctorFC);
 router.get('/getAccountingProcedure/:id', getAccountingProcedure);
 router.get('/getAccountingProcedures/:selectedDate', getAccountingProcedures);
+router.post('/addAccountingProcedure', postAccountingProcedure);
 
 
 
