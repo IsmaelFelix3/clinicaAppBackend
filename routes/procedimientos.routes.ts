@@ -8,8 +8,14 @@ import { deleteProcedimiento, getCurrentProceduresDoctor,
     getProceduresDoctorFC,
     getAccountingProcedure,
     getAccountingProcedures,
-    postAccountingProcedure
+    postAccountingProcedure,
+    postProceduresMasive,
+    getProceduresIncomesByOperatingRoom
 } from "../controllers/procedimientos.controller";
+
+import bodyParser from "body-parser";
+
+const textParser = bodyParser.text({limit: '50mb'})
 
 const router = Router();
 
@@ -29,8 +35,7 @@ router.get('/getProceduresDoctorFC/:idMedico', getProceduresDoctorFC);
 router.get('/getAccountingProcedure/:id', getAccountingProcedure);
 router.get('/getAccountingProcedures/:selectedDate', getAccountingProcedures);
 router.post('/addAccountingProcedure', postAccountingProcedure);
-
-
-
+router.post('/postProceduresMasive', textParser, postProceduresMasive);
+router.get('/getPIByOR/:start&:end', getProceduresIncomesByOperatingRoom);
 
 export default router;

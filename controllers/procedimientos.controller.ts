@@ -9,6 +9,8 @@ import Medico from "../models/medico";
 import Catalogo_Procedimientos from "../models/CatalogoProcedimiento";
 import Catalogo_Banco from "../models/banco";
 import Catalogo_Forma_Pago from "../models/formaPago";
+import MedicoPaciente from "../models/MedicoPaciente";
+import sequelize from "sequelize/types/sequelize";
 
 export const getProcedimiento = async (req: Request, res: Response) => {
     const { id } = req.params; 
@@ -681,4 +683,201 @@ export const postAccountingProcedure = async (req: Request, res: Response ) => {
             msg: 'Hable con el administrador'
         });
     }
+}
+
+export const postProceduresMasive = async (req: Request, res: Response ) => {
+    const body = req.body;
+    // console.log(body)
+    const result = JSON.parse(body);
+    console.log(result)
+
+
+    try {
+
+        //TODO: verificar si existe el paciente
+
+        result.forEach( async (element: any) => {
+
+            let procedimientoExiste =  await Procedimientos.findOne({
+                where: {
+                    serie: element.serie
+                }
+            });
+
+            if(procedimientoExiste == null){
+                //Find Patient
+                let patient: any = await Paciente.findOne({
+                    where: {
+                        [Op.and]: [ {nombre: element.nombre_paciente}, {apellidos: element.apellidos_paciente} ]
+                    }
+                });
+                // If patient not exist we create it
+                if(!patient){
+                    let patientObject = {
+                        nombre: element.nombre_paciente,
+                        apellidos: element.apellidos_paciente,
+                        fecha_nacimiento: '1900-01-01 00:00:00',
+                        genero: 'Sin informacion',
+                        correo: null,
+                        telefono: '0000000000',
+                        id_expediente: 0,
+                        rol: 'Paciente',
+                        fecha_registro: new Date().toUTCString(),
+                        estatus: 2,
+                        password: 'Admin123'
+                    }
+                    let newPatient: any = Paciente.build(patientObject);
+                    await newPatient.save();
+
+                    const idMedico = element.doctor;
+                    const idPaciente = newPatient.id_paciente; 
+
+                    //Create relation between patient en medic
+                    const relacionMedicoPaciente = await MedicoPaciente.findOne({ 
+                        where: { 
+                            [Op.and]: [ { id_medico: idMedico }, { id_paciente: idPaciente } ]
+                        }
+                    });
+
+                    if(relacionMedicoPaciente == null){
+                        let medicoPaciente: any = MedicoPaciente.build({
+                            id_medico: idMedico,
+                            id_paciente: idPaciente
+                        });
+                        await medicoPaciente.save();
+                    }
+
+                    let procedimiento = Procedimientos.build({
+                        serie: element.serie,
+                        id_medico: idMedico,
+                        id_paciente: idPaciente,
+                        id_quirofano: element.quirofano,
+                        fecha_procedimiento_inicio: new Date(element.fecha_procedimiento_inicio).toUTCString(),
+                        fecha_procedimiento_fin :new Date(new Date(element.fecha_procedimiento_inicio).setMinutes(new Date(element.fecha_procedimiento_inicio).getMinutes() + 5)).toUTCString(),
+                        id_procedimiento: element.procedimiento,
+                        estatus: 'Procedimiento Cerrado',
+                        detalles: element.detalles,
+                        costo: element.costo,
+                        id_forma_pago: element.forma_pago,
+                        id_banco: element.banco
+                    });
+
+                    await procedimiento.save();
+                    return;
+                }
+
+                //Create Procedure
+                let procedimiento = Procedimientos.build({
+                    serie: element.serie,
+                    id_medico: element.doctor,
+                    id_paciente: patient.id_paciente,
+                    id_quirofano: element.quirofano,
+                    fecha_procedimiento_inicio: new Date(element.fecha_procedimiento_inicio).toUTCString(),
+                    fecha_procedimiento_fin :new Date(new Date(element.fecha_procedimiento_inicio).setMinutes(new Date(element.fecha_procedimiento_inicio).getMinutes() + 5)).toUTCString(),
+                    id_procedimiento: element.procedimiento,
+                    estatus: 'Procedimiento Cerrado',
+                    detalles: element.detalles,
+                    costo: element.costo,
+                    id_forma_pago: element.forma_pago,
+                    id_banco: element.banco
+                });
+
+                await procedimiento.save();
+            }
+            else{
+
+                 let patient: any = await Paciente.findOne({
+                    where: {
+                        [Op.and]: [ {nombre: element.nombre_paciente}, {apellidos: element.apellidos_paciente} ]
+                    }
+                });
+
+                //Update procedure
+                await procedimientoExiste.update({
+                    serie: element.serie,
+                    id_medico: element.doctor,
+                    id_paciente: patient.id_paciente,
+                    id_quirofano: element.quirofano,
+                    fecha_procedimiento_inicio: new Date(element.fecha_procedimiento_inicio).toUTCString(),
+                    fecha_procedimiento_fin :new Date(new Date(element.fecha_procedimiento_inicio).setMinutes(new Date(element.fecha_procedimiento_inicio).getMinutes() + 5)).toUTCString(),
+                    id_procedimiento: element.procedimiento,
+                    estatus: 'Procedimiento Cerrado',
+                    detalles: element.detalles,
+                    costo: element.costo,
+                    id_forma_pago: element.forma_pago,
+                    id_banco: element.banco
+                });
+            }
+        });
+
+        res.status(200).json({
+            msg: 'Guardado con exito',
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+export const getProceduresIncomesByOperatingRoom = async (req: Request, res: Response ) => {
+
+    const { start, end } = req.params; 
+    console.log(start)
+    console.log(end)
+    // let date = new Date().toUTCString();
+
+    // console.log(date)
+
+
+    // const day = new Date(end).getUTCDate();
+    // const newDate = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day - 1 ,0-7)
+    // const newEnd = new Date(new Date(end).getUTCFullYear(),new Date(end).getUTCMonth(), day,new Date(end).getUTCHours(),59,59).toUTCString();
+
+    // console.log(newEnd)
+    const totalIncome = await Procedimientos.findAndCountAll({
+        attributes: [ "id_quirofano",
+                      [Sequelize.fn("sum", Sequelize.col("costo")), "total_income"],
+        ],
+        include: [{ model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },],
+        where: {
+            fecha_procedimiento_inicio: {
+                [Op.and]: [{ [Op.gte]: start },{ [Op.lt]: end }],
+            }
+        },
+        group: ["id_quirofano"],
+    });
+
+    // const procedimientos = await Procedimientos.findAndCountAll({
+    //     include: [
+    //         { model: Paciente, attributes: ['nombre','apellidos', 'id_paciente'] },
+    //         { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },
+    //         { model: Medico, attributes: ['id_medico','nombre','apellidos']},
+    //         { model: Catalogo_Procedimientos, attributes: ['id_procedimiento', 'nombre_procedimiento'] },
+    //         { model: Catalogo_Banco, attributes: ['id_banco', 'nombre_banco'] },
+    //         { model: Catalogo_Forma_Pago, attributes: ['id_forma_pago', 'nombre_forma_pago'] }
+    //     ],
+        
+    //     where: {
+    //         fecha_procedimiento_inicio: {
+    //             [Op.and]: [{ [Op.gte]: start },{ [Op.lt]: end }],
+    //         }
+    //     },
+    //     order: [
+    //         ['fecha_procedimiento_inicio', 'ASC']
+    //     ],
+    //     attributes: [
+    //         'serie','id_reserva', 'id_medico', 'id_paciente', 'id_quirofano', 'fecha_procedimiento_inicio', 
+    //         'fecha_procedimiento_fin', 'id_procedimiento', 'estatus', 'id_banco', 'id_forma_pago', 'costo'
+    //     ]
+    // });
+
+    // console.log(procedimientos.rows)
+    
+    res.json({
+        msg: 'getPIByOR',
+        totalIncome
+    });
 }
