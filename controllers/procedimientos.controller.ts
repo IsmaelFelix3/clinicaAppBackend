@@ -45,22 +45,19 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
 
     const { selectedDate } = req.params; 
     console.log(selectedDate)
-    let date = new Date();
+    let date = new Date().toUTCString();
 
     if(selectedDate != 'null'){
-        date = new Date(selectedDate);
+        date = new Date(selectedDate).toUTCString();
     }
 
     console.log(date)
 
-    
-    let userTimezoneOffset = date.getTimezoneOffset() * 60000;
-    let correctedDate = new Date(date.getTime() - userTimezoneOffset);
-    correctedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(),0-7,0,0);
 
+    const day = new Date(date).getUTCDate() + 1;
+    const newDate = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day - 1 ,0-7)
+    const dayPlus = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day,0-7);
 
-    const day = correctedDate.getUTCDate() + 1;
-    const dayPlus = new Date(correctedDate.getUTCFullYear(),correctedDate.getUTCMonth(), day,0-7);
 
     const procedimientos = await Procedimientos.findAndCountAll({
         include: [
@@ -72,7 +69,7 @@ export const getProcedimientos = async (req: Request, res: Response ) => {
         
         where: {
             fecha_procedimiento_inicio: {
-                [Op.and]: [{ [Op.gte]: correctedDate },{ [Op.lt]: dayPlus }],
+                [Op.and]: [{ [Op.gte]: newDate },{ [Op.lt]: dayPlus }],
             }
         },
         order: [
