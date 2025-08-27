@@ -29,17 +29,20 @@ export const getCatalogoProcedimientos = async (req: Request, res: Response) => 
     }
 }
 
-export const getCatalogoProcedimientosByOperatingRoom = async (req: Request, res: Response) => {
+export const getProceduresBySpecialtyId = async (req: Request, res: Response) => {
     try {
-        const { operatingRoomId } = req.params;
+        const { specialtyId } = req.params;
 
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
             attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento' ],
             // include: Quirofano,
-            // raw: true,
-            // where: {
-            //     quirofano: operatingRoomId
-            // }
+            raw: true,
+            where: {
+                especialidad: specialtyId
+            },
+            order: [
+                ['nombre_procedimiento','ASC']
+            ]
         });
         res.json({
             msg: 'getCatalogoProcedimientos',

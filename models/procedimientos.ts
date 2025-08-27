@@ -8,8 +8,7 @@ import Catalogo_Banco from "./banco";
 
 const Procedimientos = db.define('Procedimientos', {
     serie: {
-        type: DataTypes.STRING,
-        defaultValue: 'PC-PRM'
+        type: DataTypes.STRING
     },
     id_reserva: {
         type: DataTypes.INTEGER,

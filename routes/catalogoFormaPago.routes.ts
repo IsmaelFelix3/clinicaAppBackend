@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/getPaymentMethods/', getPaymentMethods);
 router.get('/getPaymentMethodById/:id', getPaymentMethodById);
-router.post('/postPaymentMethod/', postPaymentMethod);
+router.post('/addPaymentMethod/', postPaymentMethod);
 router.post('/editPaymentMethod/', editPaymentMethod);
 router.delete('/deletePaymentMethod/:id', deletePaymentMethod);
 

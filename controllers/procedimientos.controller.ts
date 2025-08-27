@@ -17,7 +17,7 @@ export const getProcedimiento = async (req: Request, res: Response) => {
     try {
 
         const procedimiento = await Procedimientos.findByPk(id, {
-            attributes: [ 'fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'detalles' ],
+            attributes: [ 'serie','fecha_procedimiento_inicio', 'fecha_procedimiento_fin', 'estatus', 'detalles' ],
             include: [
                 { model: Paciente, attributes: ['id_paciente','nombre','apellidos'] },
                 { model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },
@@ -113,6 +113,7 @@ export const postProcedimiento = async (req: Request, res: Response ) => {
         let endDateCorrected = new Date(new Date(body.endDate).getTime() - userTimezoneOffset);*/
         
         const reserva = {
+            serie: body.serie,
             id_medico: body.doctor,
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
@@ -708,14 +709,14 @@ export const postProceduresMasive = async (req: Request, res: Response ) => {
                 //Find Patient
                 let patient: any = await Paciente.findOne({
                     where: {
-                        [Op.and]: [ {nombre: element.nombre_paciente}, {apellidos: element.apellidos_paciente} ]
+                        [Op.and]: [ {nombre: element.nombre_paciente.trim()}, {apellidos: element.apellidos_paciente.trim()} ]
                     }
                 });
                 // If patient not exist we create it
                 if(!patient){
                     let patientObject = {
-                        nombre: element.nombre_paciente,
-                        apellidos: element.apellidos_paciente,
+                        nombre: element.nombre_paciente.trim(),
+                        apellidos: element.apellidos_paciente.trim(),
                         fecha_nacimiento: '1900-01-01 00:00:00',
                         genero: 'Sin informacion',
                         correo: null,
@@ -788,7 +789,7 @@ export const postProceduresMasive = async (req: Request, res: Response ) => {
 
                  let patient: any = await Paciente.findOne({
                     where: {
-                        [Op.and]: [ {nombre: element.nombre_paciente}, {apellidos: element.apellidos_paciente} ]
+                        [Op.and]: [ {nombre: element.nombre_paciente.trim()}, {apellidos: element.apellidos_paciente.trim()} ]
                     }
                 });
 

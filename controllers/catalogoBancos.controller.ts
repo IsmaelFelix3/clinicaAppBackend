@@ -123,10 +123,10 @@ export const deleteBank = async( req: Request, res: Response ) => {
         });
     }
 
-    await banco.update({ estado: false });
-    // await laboratorio.destroy();
+    // await banco.update({ estado: false });
+    await banco.destroy();
     res.json({
-        msg: 'Banco Desactivado'
+        msg: 'Banco Eliminado'
     });
 
 }
