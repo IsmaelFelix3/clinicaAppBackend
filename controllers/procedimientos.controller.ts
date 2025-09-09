@@ -618,8 +618,8 @@ export const getAccountingProcedures = async (req: Request, res: Response ) => {
 
 
     const day = new Date(date).getUTCDate() + 1;
-    const newDate = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day - 1 ,0-7)
-    const dayPlus = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day,0-7);
+    const newDate = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day - 1 ,0)
+    const dayPlus = new Date(new Date(date).getUTCFullYear(),new Date(date).getUTCMonth(), day,0);
 
     const procedimientos = await Procedimientos.findAndCountAll({
         include: [
@@ -786,9 +786,13 @@ export const postProceduresMasive = async (req: Request, res: Response ) => {
 
                  let patient: any = await Paciente.findOne({
                     where: {
-                        [Op.and]: [ {nombre: element.nombre_paciente.trim()}, {apellidos: element.apellidos_paciente.trim()} ]
+                        nombre: { [Op.like]: element.nombre_paciente.trim() },
+                        apellidos:{ [Op.like]: element.apellidos_paciente.trim() }
                     }
                 });
+                console.log('paciente---------')
+                console.log(patient)
+                console.log(procedimientoExiste)
 
                 //Update procedure
                 await procedimientoExiste.update({

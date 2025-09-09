@@ -4,7 +4,11 @@ import bcryptjs from "bcryptjs";
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
-    const medicos = await Medico.findAll();
+    const medicos = await Medico.findAll({
+        order: [
+            ['apellido', 'ASC']
+        ]
+    });
 
     res.json({
         msg: 'getMedicos',

@@ -39,11 +39,14 @@ export const getPacientes = async( req: Request, res: Response ) => {
         },
         where: {
             id_paciente: pacientes
-        } 
+        },
+        order: [
+            ['apellidos', 'ASC']
+        ]
     });
 
     res.json({
-        msg: 'getPacientes',
+        msg: 'getPacientesByDoctor',
         paciente,
         numPacientes: medicoPaciente.count
     });
@@ -97,17 +100,17 @@ export const postPaciente = async( req: Request, res: Response ) => {
 
     try {
 
-        const existeEmail = await Paciente.findOne({ 
-            where: { 
-                correo: body.correo 
-            }
-        });
+        // const existeEmail = await Paciente.findOne({ 
+        //     where: { 
+        //         correo: body.correo 
+        //     }
+        // });
 
-        if(existeEmail){
-            return res.status(400).json({
-                msg: 'Ya existe un usuario con el email ' + body.correo
-            })
-        }
+        // if(existeEmail){
+        //     return res.status(400).json({
+        //         msg: 'Ya existe un usuario con el email ' + body.correo
+        //     })
+        // }
 
         let paciente: any = Paciente.build(body);
         await paciente.save();
