@@ -6,7 +6,7 @@ export const getMedicos = async( req: Request, res: Response ) => {
 
     const medicos = await Medico.findAll({
         order: [
-            ['apellido', 'ASC']
+            ['apellidos', 'ASC']
         ]
     });
 
