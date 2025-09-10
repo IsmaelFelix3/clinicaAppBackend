@@ -19,7 +19,10 @@ const Cita = db.define('Citas', {
         defaultValue: 'En espera'
     },
     fecha_cita: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
+    },
+    hora_cita: {
+        type: DataTypes.TINYINT
     },
     motivo_consulta: {
         type: DataTypes.TEXT
