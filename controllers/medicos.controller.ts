@@ -1,10 +1,18 @@
 import { Request, Response } from "express";
 import Medico from '../models/medico';
 import bcryptjs from "bcryptjs";
+import Consultorio from "../models/consultorio";
+import Edificio from "../models/edificio";
+import Piso from "../models/piso";
 
 export const getMedicos = async( req: Request, res: Response ) => {
 
     const medicos = await Medico.findAll({
+        include: [
+            { model: Consultorio, attributes: ['id_consultorio','descripcion_consultorio'] },
+            { model: Edificio, attributes: ['id_edificio', 'nombre']},
+            { model: Piso, attributes: ['id_piso', 'descripcion_piso']}
+        ],
         order: [
             ['apellidos', 'ASC']
         ]

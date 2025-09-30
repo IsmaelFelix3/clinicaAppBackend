@@ -3,7 +3,7 @@ import Piso from '../models/piso';
 
 export const getPisos = async( req: Request, res: Response ) => {
 
-    const pisos = await Piso.findAll();
+    const pisos = await Piso.findAndCountAll();
 
     res.json({
         msg: 'get pisos',
@@ -101,5 +101,31 @@ export const deletePiso = async( req: Request, res: Response ) => {
         piso
     });
 
+}
+
+export const getPisosByEdificioId = async( req: Request, res: Response ) => {
+
+    const { id } = req.params;
+    try {
+
+        const pisos = await Piso.findAndCountAll({
+            where: {
+                id_edificio: id
+            }
+        });
+
+        res.json({
+            msg: 'get piso',
+            pisos
+        });
+        
+    } catch (error) {
+
+         console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+        
+    }
 }
 

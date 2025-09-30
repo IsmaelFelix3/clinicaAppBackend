@@ -9,9 +9,6 @@ const Edificio = db.define('Edificio', {
     },
     nombre: {
         type: DataTypes.STRING
-    },
-    num_consultorios: {
-        type: DataTypes.TINYINT
     }
 },
 {

@@ -43,6 +43,8 @@ import historialInsumosProcedimientoRoutes from "../routes/historialInsumosProce
 import catalogoBancosRoutes from "../routes/catalogoBanco.routes";
 import catalogoFormaPagoRoutes from "../routes/catalogoFormaPago.routes";
 import catalogoEspecialidadesRoutes from "../routes/catalogoEspecialidad.routes";
+import bitacoraRoutes from "../routes/bitacora.routes";
+import consultorioRoutes from "../routes/consultorio.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -96,7 +98,9 @@ class Server {
         historialInsumosProcedimiento: '/api/hip',
         catalogoBancos: '/api/banks',
         catalogoFormasPago: '/api/paymentMethods',
-        catalogoEspecialidades: '/api/specialties'
+        catalogoEspecialidades: '/api/specialties',
+        bitacora: '/api/buildingLog',
+        consultorio: '/api/consultingRoom'
     }
 
     constructor(){
@@ -175,14 +179,12 @@ class Server {
         this.app.use( this.apiPaths.catalogoBancos, catalogoBancosRoutes );
         this.app.use( this.apiPaths.catalogoFormasPago, catalogoFormaPagoRoutes );
         this.app.use( this.apiPaths.catalogoEspecialidades, catalogoEspecialidadesRoutes );
+        this.app.use( this.apiPaths.bitacora, bitacoraRoutes );
+        this.app.use( this.apiPaths.consultorio, consultorioRoutes )
     }
 
     listen(){
         this.app.listen( this.port, () => {
-            console.log(DB_HOST)
-            console.log(DB_NAME)
-            console.log(DB_USER)
-            console.log(PORT)
             console.log('Servidor corriendo en puerto ' + this.port);
         } )
     }

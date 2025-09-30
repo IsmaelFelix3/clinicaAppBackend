@@ -1,5 +1,7 @@
-import { DataTypes } from "sequelize";
+import { BelongsTo, DataTypes } from "sequelize";
 import db from "../db/connection";
+import Medico from "./medico";
+import Piso from "./piso";
 
 const Consultorio = db.define('Consultorio', {
     id_consultorio: {
@@ -19,5 +21,7 @@ const Consultorio = db.define('Consultorio', {
     tableName: 'consultorios'
 }
 );
+
+// Consultorio.belongsTo( Piso, { foreignKey: 'id_piso'})
 
 export default Consultorio;

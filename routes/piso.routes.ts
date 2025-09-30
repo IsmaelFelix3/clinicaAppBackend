@@ -4,7 +4,8 @@ import {
     getPiso,
     postPiso,
     putPiso,
-    deletePiso
+    deletePiso,
+    getPisosByEdificioId
 } from '../controllers/pisos.controller';
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get('/:id', getPiso );
 router.post('/', postPiso );
 router.put('/:id', putPiso );
 router.delete('/:id', deletePiso );
+router.get('/getFloorByBuildingId/:id', getPisosByEdificioId );
 
 export default router;

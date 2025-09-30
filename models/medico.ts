@@ -2,6 +2,9 @@ import { DataTypes, TINYINT } from "sequelize";
 import db from "../db/connection";
 import Cita from "./cita";
 import Procedimientos from "./procedimientos";
+import Consultorio from "./consultorio";
+import Edificio from "./edificio";
+import Piso from "./piso";
 
 const Medico = db.define('Medico', {
     id_medico: {
@@ -28,10 +31,10 @@ const Medico = db.define('Medico', {
        type: DataTypes.STRING
     },
     id_edificio: {
-        type: DataTypes.MEDIUMINT
+        type: DataTypes.TINYINT
     },
     id_piso: {
-        type: DataTypes.TINYINT
+        type: DataTypes.SMALLINT
     },
     google: {
         type: DataTypes.BOOLEAN
@@ -53,8 +56,8 @@ const Medico = db.define('Medico', {
         type: DataTypes.TINYINT,
         defaultValue: 1
     },
-    consultorio: {
-        type: DataTypes.TINYINT
+    id_consultorio: {
+        type: DataTypes.SMALLINT
     }
 },
 {
@@ -64,5 +67,8 @@ const Medico = db.define('Medico', {
 
 Cita.belongsTo(Medico, { foreignKey: 'id_medico' });
 Procedimientos.belongsTo(Medico, { foreignKey: 'id_medico' });
+Medico.hasOne( Edificio, {foreignKey: 'id_edificio', sourceKey: 'id_edificio'});
+Medico.hasOne( Piso, {foreignKey: 'id_piso', sourceKey: 'id_piso'});
+Medico.hasOne( Consultorio, {foreignKey: 'id_consultorio', sourceKey: 'id_consultorio'});
 
 export default Medico;

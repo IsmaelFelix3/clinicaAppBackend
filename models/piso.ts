@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Medico from "./medico";
 
 const Piso = db.define('Piso', {
     id_piso: {
@@ -18,5 +19,7 @@ const Piso = db.define('Piso', {
     freezeTableName: true,
     tableName: 'pisos'
 });
+
+
 
 export default Piso;
