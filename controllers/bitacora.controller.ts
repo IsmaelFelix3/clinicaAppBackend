@@ -5,7 +5,9 @@ export const getBitacoraRecords = async (req: Request, res: Response ) => {
     try {
 
         const registros = await Bitacora.findAndCountAll({
-            
+            order: [
+            ['fecha', 'DESC']
+        ],
         });
     
         res.json( {
