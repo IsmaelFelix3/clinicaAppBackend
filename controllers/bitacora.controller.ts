@@ -11,7 +11,7 @@ export const getBitacoraRecords = async (req: Request, res: Response ) => {
                 { model: Medico, attributes: ['id_medico','nombre','apellidos']}
             ],
             order: [
-            ['fecha', 'DESC']
+            ['createdAt', 'DESC']
         ],
         });
     
