@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Medico from "./medico";
 
 const Bitacora = db.define('Bitacora', {
     id: {
@@ -36,5 +37,7 @@ const Bitacora = db.define('Bitacora', {
     freezeTableName: true,
     tableName: 'bitacora'
 });
+
+Bitacora.hasOne(Medico, {sourceKey: 'medico',foreignKey: 'id_medico'})
 
 export default Bitacora;

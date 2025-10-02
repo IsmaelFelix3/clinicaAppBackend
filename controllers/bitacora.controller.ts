@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import Bitacora from "../models/bitacora";
 import { QueryTypes } from "sequelize";
+import Medico from "../models/medico";
 
 export const getBitacoraRecords = async (req: Request, res: Response ) => {
     try {
 
         const registros = await Bitacora.findAndCountAll({
+            include:[
+                { model: Medico, attributes: ['id_medico','nombre','apellidos']}
+            ],
             order: [
             ['fecha', 'DESC']
         ],
