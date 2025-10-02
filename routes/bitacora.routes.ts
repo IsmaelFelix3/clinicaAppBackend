@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteRegistro, editRegistro, getBitacoraRecords, getRecordById, postBitacoraRecord } from "../controllers/bitacora.controller";
+import { deleteRegistro, editRegistro, getBitacoraRecords, getBuildingLogReport, getRecordById, postBitacoraRecord } from "../controllers/bitacora.controller";
 
 const router = Router();
 
@@ -8,5 +8,6 @@ router.get('/getRecordById/:id', getRecordById);
 router.post('/postBitacoraRecord/', postBitacoraRecord);
 router.post('/editRecord/', editRegistro);
 router.delete('/deleteRecord/:id', deleteRegistro);
+router.get('/getBuildingLogReport/:start&:end', getBuildingLogReport);
 
 export default router;

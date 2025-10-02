@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Bitacora from "../models/bitacora";
+import { QueryTypes } from "sequelize";
 
 export const getBitacoraRecords = async (req: Request, res: Response ) => {
     try {
@@ -117,4 +118,25 @@ export const deleteRegistro = async( req: Request, res: Response ) => {
         msg: 'Registro eliminado Eliminado'
     });
 
+}
+
+export const getBuildingLogReport = async( req: Request, res: Response ) => {
+
+    try {
+        const { start, end } =  req.params;
+        const registros = await Bitacora.sequelize?.query(`SELECT M.nombre, M.apellidos,B.medico, COUNT(B.medico) as count, B.fecha FROM bitacora as B JOIN medicos as M ON M.id_medico = B.medico where B.fecha BETWEEN '${start}' AND '${end}' group by medico, fecha`, 
+            {type: QueryTypes.SELECT}
+        );
+
+        res.json( {
+            msg: 'Get bitacora Report',
+            registros
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
 }
