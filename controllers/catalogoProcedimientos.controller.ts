@@ -9,7 +9,7 @@ import Catalogo_Especialidad from "../models/catalogoEspecialidades";
 export const getCatalogoProcedimientos = async (req: Request, res: Response) => {
     try {
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
-            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento' ],
+            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento', 'folio' ],
             include: [{ model: Catalogo_Especialidad, attributes : ['id_especialidad', 'nombre_especialidad'] }],
             raw: true,
             order: [
@@ -34,7 +34,7 @@ export const getProceduresBySpecialtyId = async (req: Request, res: Response) =>
         const { specialtyId } = req.params;
 
         const catalogoProcedimiento = await CatalogoProcedimiento.findAndCountAll({
-            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento' ],
+            attributes: [ 'id_procedimiento', 'especialidad', 'nombre_procedimiento', 'folio' ],
             // include: Quirofano,
             raw: true,
             where: {

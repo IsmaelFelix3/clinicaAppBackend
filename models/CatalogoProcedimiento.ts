@@ -16,6 +16,9 @@ const Catalogo_Procedimientos = db.define('Catalogo_Procedimientos', {
     nombre_procedimiento: {
         type: DataTypes.STRING,
         unique: true,
+    },
+    folio:{
+        type: DataTypes.TEXT
     }
 },
 {

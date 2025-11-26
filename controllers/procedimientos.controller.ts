@@ -12,6 +12,8 @@ import Catalogo_Forma_Pago from "../models/formaPago";
 import MedicoPaciente from "../models/MedicoPaciente";
 import sequelize from "sequelize/types/sequelize";
 
+let months = ['Enero','Febrero','Marzo','Abril', 'Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
 export const getProcedimiento = async (req: Request, res: Response) => {
     const { id } = req.params; 
     try {
@@ -207,6 +209,7 @@ export const putProcedimiento = async (req: Request, res: Response ) => {
         }
 
         const reserva = {
+            serie: body.serie,
             id_medico: body.doctor,
             id_paciente: body.patient,
             id_quirofano: body.operatingRoom,
@@ -881,5 +884,225 @@ export const getProceduresIncomesByOperatingRoom = async (req: Request, res: Res
     res.json({
         msg: 'getPIByOR',
         totalIncome
+    });
+}
+
+export const getAcumulativeProcedures = async (req: Request, res: Response ) => {
+
+    let start = new Date(new Date().getUTCFullYear(),0,1)
+    let end = new Date()
+    console.log(start)
+    console.log(end.getMonth())
+
+    let datesArray = [];
+
+    for (let index = 0; index <= end.getMonth(); index++) {
+        datesArray.push({start: new Date(new Date().getFullYear(),index,1,0-7,0,0), end: new Date(new Date().getFullYear(),index+1,1,)})
+    }
+
+    console.log(datesArray)
+    let final:any = [];
+
+  
+    for (let index = 0; index < datesArray.length; index++) {
+         const acumulative = await Procedimientos.findAll({
+            include: [{ model: Catalogo_Procedimientos, attributes: ['nombre_procedimiento'] },],
+            attributes: [ "id_procedimiento",
+                        [Sequelize.fn("COUNT", Sequelize.col("Procedimientos.id_procedimiento")), "count"],
+            ],
+            where: {
+                fecha_procedimiento_inicio: {
+                    [Op.and]: [{ [Op.gte]: datesArray[index].start },{ [Op.lt]: datesArray[index].end }],
+                }
+            },
+            group: ["id_procedimiento"],
+            raw: true
+        });
+
+        final.push({info: acumulative, month: datesArray[index].start.getUTCMonth()})
+        
+    }
+
+    res.json({
+        msg: 'getReport',
+        final
+    });
+}
+
+export const getTotalIncomesMonthProcedures = async (req: Request, res: Response ) => {
+
+    
+    let start = new Date(new Date().getUTCFullYear(),0,1)
+    let end = new Date()
+    console.log(start)
+    console.log(end.getMonth())
+
+    let datesArray = [];
+
+    for (let index = 0; index <= end.getMonth(); index++) {
+        datesArray.push({start: new Date(new Date().getFullYear(),index,1,), end: new Date(new Date().getFullYear(),index+1,1,)})
+    }
+
+    console.log(datesArray)
+    let result = [];
+    for (let index = 0; index < datesArray.length; index++) {
+        const totalIncome = await Procedimientos.findAll({
+            attributes: [ [Sequelize.fn("sum", Sequelize.col("costo")), "total_income"]],
+            where: {
+                fecha_procedimiento_inicio: {
+                    [Op.and]: [{ [Op.gte]: datesArray[index].start },{ [Op.lt]: datesArray[index].end }],
+                }
+            },
+            raw: true
+        });
+        result.push(totalIncome)
+    }
+    
+    res.json({
+        msg: 'getIncomes',
+        result
+    });
+}
+
+export const getTotalIncomeByOperatingRoom = async (req: Request, res: Response) => {
+     let start = new Date(new Date().getUTCFullYear(),0,1)
+    let end = new Date()
+    const totalIncome = await Procedimientos.findAll({
+        attributes: [ "id_quirofano",
+                      [Sequelize.fn("sum", Sequelize.col("costo")), "total_income"],
+        ],
+        include: [{ model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },],
+        where: {
+            fecha_procedimiento_inicio: {
+                [Op.and]: [{ [Op.gte]: start },{ [Op.lt]: end }],
+            }
+        },
+        group: ["id_quirofano"],
+        order: [
+            ['id_quirofano','ASC']
+        ]
+    });
+
+    
+    
+    res.json({
+        msg: 'getTotalIByOR',
+        totalIncome
+    });
+}
+
+export const getTotalProceduresByOperatingRoom = async (req: Request, res: Response) => {
+     let start = new Date(new Date().getUTCFullYear(),0,1)
+    let end = new Date()
+    const total = await Procedimientos.findAll({
+        attributes: [ "id_quirofano",
+                      [Sequelize.fn("count", Sequelize.col("Procedimientos.id_quirofano")), "count"],
+        ],
+        include: [{ model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },],
+        where: {
+            fecha_procedimiento_inicio: {
+                [Op.and]: [{ [Op.gte]: start },{ [Op.lt]: end }],
+            }
+        },
+        group: ["id_quirofano"],
+        order: [
+            ['id_quirofano','ASC']
+        ]
+    });
+
+    
+    
+    res.json({
+        msg: 'getTotalIByOR',
+        total
+    });
+}
+
+export const getTotalMonthProceduresByIdReport = async (req: Request, res: Response) => {
+
+     let months = ['Enero','Febrero','Marzo','Abril', 'Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const { procedimiento } = req.body; 
+    const start = new Date(req.body.start);
+    const end = new Date(req.body.end);
+    console.log(start)
+    console.log(end)
+    console.log(procedimiento)
+
+     let datesArray = [];
+    console.log(start.getMonth())
+    for (let index = start.getUTCMonth(); index <= end.getUTCMonth(); index++) {
+        datesArray.push({start: new Date(new Date().getFullYear(),index,1,0-7), end: new Date(new Date().getFullYear(),index+1,1,)})
+    }
+    console.log(datesArray)
+
+    let result = [];
+    for (let index = 0; index < datesArray.length; index++) {
+        const total = await Procedimientos.findAll({
+            attributes: [ "Procedimientos.id_procedimiento",
+                        [Sequelize.fn("count", Sequelize.col("Procedimientos.id_procedimiento")), "count"],
+            ],        where: {
+                id_procedimiento: procedimiento,
+                fecha_procedimiento_inicio: {
+                    [Op.and]: [{ [Op.gte]: datesArray[index].start },{ [Op.lt]: datesArray[index].end }],
+                }
+            },
+            include: [{ model: Catalogo_Procedimientos, attributes: ['nombre_procedimiento']} ],
+            group: ["Procedimientos.id_procedimiento"],
+        });
+        result.push({total, month: months[datesArray[index].start.getUTCMonth()]})
+    }
+
+    res.json({
+        msg: 'getTotalProce',
+        result
+    });
+}
+
+export const getTotalProceduresByOperatingRoomByDates = async (req: Request, res: Response) => {
+
+    const { start, end } = req.params; 
+    console.log(start)
+    console.log(end)
+
+    // const day = new Date(date).getUTCDate() + 1;
+    const newStart = new Date(new Date(start).getUTCFullYear(),new Date(start).getUTCMonth(), 1,0-7)
+    const newEnd = new Date(new Date(end).getUTCFullYear(),new Date(end).getUTCMonth()+1, 0,23,59,59);
+    console.log(newStart)
+    console.log(newEnd)
+
+
+    let datesArray = [];
+    for (let index = newStart.getUTCMonth(); index < newEnd.getUTCMonth(); index++) {
+        datesArray.push({start: new Date(new Date().getFullYear(),index,1,0-7), end: new Date(new Date().getFullYear(),index+1,1,)})
+    }
+    console.log(datesArray)
+
+    let result = [];
+    for (let index = 0; index < datesArray.length; index++) {
+        const total = await Procedimientos.findAll({
+            attributes: [ "id_quirofano",
+                            [Sequelize.fn("count", Sequelize.col("Procedimientos.id_quirofano")), "count"],
+            ],
+            include: [{ model: Quirofano, attributes: ['id_quirofano','nombre_quirofano'] },],
+            where: {
+                fecha_procedimiento_inicio: {
+                    [Op.and]: [{ [Op.gte]: datesArray[index].start },{ [Op.lt]: datesArray[index].end }],
+                }
+            },
+            group: ["id_quirofano"],
+            order: [
+                ['id_quirofano','ASC']
+            ]
+        });
+        result.push({total, month: months[datesArray[index].start.getUTCMonth()]})
+    }
+
+    console.log(result)
+
+    
+    
+    res.json({
+        msg: 'getTotalIByOR',
+        result
     });
 }

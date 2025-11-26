@@ -10,7 +10,13 @@ import { deleteProcedimiento, getCurrentProceduresDoctor,
     getAccountingProcedures,
     postAccountingProcedure,
     postProceduresMasive,
-    getProceduresIncomesByOperatingRoom
+    getProceduresIncomesByOperatingRoom,
+    getAcumulativeProcedures,
+    getTotalIncomesMonthProcedures,
+    getTotalIncomeByOperatingRoom,
+    getTotalProceduresByOperatingRoom,
+    getTotalMonthProceduresByIdReport,
+    getTotalProceduresByOperatingRoomByDates
 } from "../controllers/procedimientos.controller";
 
 import bodyParser from "body-parser";
@@ -37,5 +43,12 @@ router.get('/getAccountingProcedures/:selectedDate', getAccountingProcedures);
 router.post('/addAccountingProcedure', postAccountingProcedure);
 router.post('/postProceduresMasive', textParser, postProceduresMasive);
 router.get('/getPIByOR/:start&:end', getProceduresIncomesByOperatingRoom);
+router.get('/getAcumulativeProceduresReport/',getAcumulativeProcedures);
+router.get('/getTotalIncomesProceduresMonth/',getTotalIncomesMonthProcedures);
+router.get('/getTotalIncomesByOperatingRoom/',getTotalIncomeByOperatingRoom)
+router.get('/getTotalProceduresByOperatingRoom/',getTotalProceduresByOperatingRoom)
+router.post('/getTotalMonthProceduresByIdReport/',getTotalMonthProceduresByIdReport)
+router.get('/getTotalProceduresByOperatingRoomByDates/:start&:end',getTotalProceduresByOperatingRoomByDates)
+
 
 export default router;
