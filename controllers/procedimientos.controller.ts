@@ -420,9 +420,9 @@ export const getProceduresMonth = async(req: Request, res: Response) => {
                 estatus: {
                     [Op.ne]: 'Cancelado'
                 },
-                fecha_procedimiento_inicio: {
-                    [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
-                }
+                // fecha_procedimiento_inicio: {
+                //     [Op.and]: [{ [Op.gte]: firstDate },{ [Op.lt]: lastDate }],
+                // }
             },
             order: [
                 ['fecha_procedimiento_inicio', 'ASC']

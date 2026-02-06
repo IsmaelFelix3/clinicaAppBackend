@@ -39,7 +39,7 @@ export const login = async(req: Request, res: Response) => {
        
         if( !validPassword ){
             return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - password'
+                msg: 'Usuario / Password no son correctos'
             })
         }
         console.log(uid)
