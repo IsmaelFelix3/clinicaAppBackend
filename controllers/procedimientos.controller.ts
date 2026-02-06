@@ -1031,7 +1031,7 @@ export const getTotalMonthProceduresByIdReport = async (req: Request, res: Respo
      let datesArray = [];
     console.log(start.getMonth())
     for (let index = start.getUTCMonth(); index <= end.getUTCMonth(); index++) {
-        datesArray.push({start: new Date(new Date().getFullYear(),index,1,0-7), end: new Date(new Date().getFullYear(),index+1,1,)})
+        datesArray.push({start: new Date(new Date(start).getFullYear(),index,1,0-7), end: new Date(new Date(start).getFullYear(),index+1,1,)})
     }
     console.log(datesArray)
 
