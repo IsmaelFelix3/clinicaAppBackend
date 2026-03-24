@@ -45,6 +45,7 @@ import catalogoFormaPagoRoutes from "../routes/catalogoFormaPago.routes";
 import catalogoEspecialidadesRoutes from "../routes/catalogoEspecialidad.routes";
 import bitacoraRoutes from "../routes/bitacora.routes";
 import consultorioRoutes from "../routes/consultorio.routes";
+import BalanceRoutes from "../routes/balance.routes";
 
 import db from "../db/connection";
 import { envs } from "../config/envs";
@@ -100,7 +101,9 @@ class Server {
         catalogoFormasPago: '/api/paymentMethods',
         catalogoEspecialidades: '/api/specialties',
         bitacora: '/api/buildingLog',
-        consultorio: '/api/consultingRoom'
+        consultorio: '/api/consultingRoom',
+        balance: '/api/balance'
+
     }
 
     constructor(){
@@ -181,6 +184,7 @@ class Server {
         this.app.use( this.apiPaths.catalogoEspecialidades, catalogoEspecialidadesRoutes );
         this.app.use( this.apiPaths.bitacora, bitacoraRoutes );
         this.app.use( this.apiPaths.consultorio, consultorioRoutes )
+        this.app.use( this.apiPaths.balance, BalanceRoutes );
     }
 
     listen(){
